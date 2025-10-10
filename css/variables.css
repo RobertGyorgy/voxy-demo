@@ -1,0 +1,110 @@
+/* ================================
+   CSS VARIABLES & CONFIGURATION
+   ================================
+   Modify these values to customize the site
+*/
+
+/* Font Imports */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap");
+
+@font-face {
+  font-family: "wild_worldbold";
+  src: url("https://assets.codepen.io/756881/wild_world-webfont.woff2") format("woff2"),
+       url("https://assets.codepen.io/756881/wild_world-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ================================
+   FLUID TYPOGRAPHY SYSTEM
+   ================================ */
+:root {
+  /* Fluid Typography Configuration */
+  --fluid-min-width: 320;
+  --fluid-max-width: 1140;
+  --fluid-screen: 100vw;
+  --fluid-bp: calc(
+    (var(--fluid-screen) - var(--fluid-min-width) / 16 * 1rem) /
+    (var(--fluid-max-width) - var(--fluid-min-width))
+  );
+
+  /* Font Sizes */
+  --f-0-min: 18;
+  --f-0-max: 20;
+  --step-0: calc(
+    ((var(--f-0-min) / 16) * 1rem) + (var(--f-0-max) - var(--f-0-min)) * var(--fluid-bp)
+  );
+
+  --f-1-min: 20;
+  --f-1-max: 24;
+  --step-1: calc(
+    ((var(--f-1-min) / 16) * 1rem) + (var(--f-1-max) - var(--f-1-min)) * var(--fluid-bp)
+  );
+
+  /* ================================
+     COLORS - Platinum White & Royal Blue Theme
+     ================================ */
+  /* Primary Colors */
+  --color-bg: #F5F5F5;                    /* Platinum white background */
+  --color-text: #4169E1;                  /* Royal blue text */
+  --color-primary: #4169E1;               /* Royal blue */
+  --color-primary-light: #6A8EFF;         /* Light royal blue */
+  --color-primary-dark: #2C4BA3;          /* Dark royal blue */
+  
+  /* Accent Colors */
+  --color-accent: #FF9A6C;                /* Coral orange */
+  --color-accent-light: #FFB896;          /* Light coral */
+  --color-accent-dark: #E67E50;           /* Dark coral */
+  
+  /* Complementary Colors */
+  --color-secondary: #FFF5E1;             /* Cream/Beige */
+  --color-tertiary: #C9E4E7;              /* Mint blue */
+  
+  /* UI Colors */
+  --color-border: #4169E1;                /* Royal blue borders */
+  --color-heading-stroke: #4169E1;        /* Royal blue for headings */
+  --color-light: #FFFFFF;                 /* Pure white */
+  --color-dark: #1A1A1A;                  /* Almost black */
+  --color-muted: #8B9BA3;                 /* Muted gray-blue */
+
+  /* ================================
+     SPACING
+     ================================ */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+
+  /* ================================
+     LAYOUT
+     ================================ */
+  --container-max-width: 1100px;
+  --content-padding: 0.75rem;
+  --grid-gap: 0.2rem;
+
+  /* ================================
+     TYPOGRAPHY
+     ================================ */
+  --font-body: "Open Sans", sans-serif;
+  --font-display: "wild_worldbold", sans-serif;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+
+  /* ================================
+     ANIMATION
+     ================================ */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+@media screen and (min-width: 1140px) {
+  :root {
+    --fluid-screen: calc(var(--fluid-max-width) * 1px);
+  }
+}
+
+

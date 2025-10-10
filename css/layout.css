@@ -1,0 +1,45 @@
+/* ================================
+   LAYOUT SYSTEM
+   ================================
+   Grid, flexbox, and container layouts
+*/
+
+/* Main Sections */
+section {
+  min-height: 100vh;
+}
+
+#content {
+  padding: 0 var(--content-padding);
+  overflow: visible;
+  width: 100%;
+}
+
+/* Container */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-sm);
+}
+
+/* Spacer */
+.spacer {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Vertical Center */
+.v-center {
+  display: flex;
+  align-items: center;
+}
+
+/* Content Wrapper */
+.content {
+  border-left: solid 1px var(--color-border);
+  padding: var(--space-sm) var(--space-lg);
+}
+
+

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GSAP ScrollSmoother Demo - Smooth scrolling effects and parallax animations">
+  <title>GSAP ScrollSmoother Demo</title>
+  
+  <!-- Preconnect to external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Modular Styles -->
+  <link rel="stylesheet" href="css/variables.css?v=29">
+  <link rel="stylesheet" href="css/base.css?v=29">
+  <link rel="stylesheet" href="css/layout.css?v=29">
+  <link rel="stylesheet" href="css/typography.css?v=29">
+  <link rel="stylesheet" href="css/components.css?v=29">
+  <link rel="stylesheet" href="css/zoom-section.css?v=29">
+  <link rel="stylesheet" href="css/horizontal-scroll.css?v=29">
+  <link rel="stylesheet" href="css/responsive.css?v=29">
+</head>
+<body>
+  <div id="wrapper">
+    <section id="content">
+      <!--  VOXY heading -->
+      <div class="heading" aria-hidden="true">
+        <p>VOXY</p>
+        <div class="text-container">
+          <p>VOXY</p>
+          <p data-speed="0.95">VOXY</p>
+          <p data-speed="0.9">VOXY</p>
+          <p data-speed="0.85">VOXY</p>
+          <p data-speed="0.8">VOXY</p>
+          <p data-speed="0.75">VOXY</p>
+          <p data-speed="0.7">VOXY</p>
+        </div>
+      </div>
+
+      <section class="image-grid">
+        <div class="image_cont rounded" data-speed="1">
+          <img data-speed="auto" src="public/Untitled design.png" alt="Voxy Design 1" loading="lazy">
+        </div>
+        <div class="image_cont rounded" data-speed="1.7">
+          <img data-speed="auto" src="public/Untitled (Your Story).jpg" alt="Voxy Story" loading="lazy">
+        </div>
+        <div class="image_cont rounded" data-speed="1.5">
+          <img data-speed="auto" src="public/pexels-pavel-danilyuk-7658190.jpg" alt="Pavel Creative" loading="lazy">
+        </div>
+        
+        <!-- Scattered floating text for depth -->
+        <div class="floating-text" data-speed="1.3" style="top: 15%; left: 10%;">
+          <span>Act wiser</span>
+        </div>
+        <div class="floating-text" data-speed="0.8" style="top: 60%; right: 5%;">
+          <span>Think higher</span>
+        </div>
+        <div class="floating-text" data-speed="1.6" style="bottom: 20%; left: 20%;">
+          <span>Grow faster</span>
+        </div>
+        <div class="floating-text" data-speed="1.1" style="top: 40%; right: 25%;">
+          <span>Move bolder</span>
+        </div>
+      </section>
+
+      <section class="title container">
+        <div class="title-text">
+          <h1>SPUNE SALUT</h1>
+          <h1>LUMII NOI A</h1>
+          <h1>CONVERSATIILOR</h1>
+        </div>
+      </section>
+
+      <!-- Horizontal Scroll Section -->
+      <section class="horizontal-section">
+        <div class="horizontal-container">
+          <div class="horizontal-wrapper">
+            <div class="horizontal-scroller">
+              <div class="horizontal-item">
+                <h3>VOCEA E NOUL CLICK!</h3>
+                <p></p>
+              </div>
+              <div class="horizontal-item">
+                <h3><span class="highlight-start">Fun fact:</span> Stiai ca tot mai multe companii inlocuiesc operatorii umani cu AI vocal? <span class="highlight-end">Claritate, viteza, zero erori.</span></h3>
+                <p></p>
+              </div>
+              <div class="horizontal-item">
+                <h3>Iti plac conversatiile infinite? VOXY le face fara pauze si fara oboseala.</h3>
+                <p></p>
+              </div>
+              <div class="horizontal-item">
+                <h3>100,243 Call-uri automate ☕</h3>
+                <p></p>
+              </div>
+              <div class="horizontal-item">
+                <h3>Fun fact: VOXY chiar raspunde. In timp real. Fara scenarii.</h3>
+                <p></p>
+              </div>
+              <div class="horizontal-item">
+                <h3># I ❤️ VOXY</h3>
+                <p></p>
+              </div>
+              <div class="horizontal-item">
+                <h3> VOXY poate vorbi in peste 40 de limbi. Si da, are accent natural.</h3>
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="v-center">
+        <div class="parallax-slab">
+          <img data-speed="auto" src="public/pexels-googledeepmind-17485706.jpg" alt="Google Deep Mind" loading="lazy">
+        </div>
+      </section>
+
+      <section class="staggered container">
+        <div class="staggered_text">
+          <div class="flow content">
+            <p>Avem un demo care te lasă fără cuvinte. Vezi ce poate face.</p>
+            <a href="#demo" class="demo-button">Vezi demo-ul</a>
+          </div>
+        </div>
+
+        <div class="staggered_demo">
+          <h3 id="split-stagger">VOXY</h3>
+        </div>
+      </section>
+
+      <section class="zoom-container">
+        <div class="zoom">
+          <div class="zoom-circle"></div>
+          <div class="zoom-content">
+            <h2>Multumim ca<br>ne<span class="hyphen">-</span>ai auzit!</h2>
+            <a href="#contact" class="zoom-button">Hai sa vorbim</a>
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <!-- GSAP Official CDN (Free Version) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  
+  <!-- Configuration -->
+  <script src="js/config.js?v=2"></script>
+  
+  <!-- Utilities -->
+  <script src="js/utils/helpers.js"></script>
+  <script src="js/utils/browser-fixes.js"></script>
+  
+  <!-- Animations -->
+  <script src="js/animations/scroll-smoother-init.js"></script>
+  <script src="js/animations/heading-animation.js"></script>
+  <script src="js/animations/text-effects.js"></script>
+  <script src="js/animations/voxy-text-effects.js"></script>
+    <script src="js/animations/horizontal-snapping.js?v=7"></script>
+  <script src="js/animations/zoom-animation.js"></script>
+  
+  <!-- Main Initialization -->
+  <script src="js/main.js?v=6"></script>
+</body>
+</html>
+

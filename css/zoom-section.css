@@ -1,0 +1,128 @@
+/* ================================
+   ZOOM SECTION
+   ================================
+   Zoom-in animation section
+*/
+
+.zoom-container {
+  position: relative;
+  height: 300vh; /* Longer scroll distance for animation */
+  background: var(--color-bg);
+  margin-left: calc(-1 * var(--content-padding));
+  margin-right: calc(-1 * var(--content-padding));
+  width: calc(100% + (2 * var(--content-padding)));
+}
+
+.zoom {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.zoom-circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  transform: scale(1);
+  will-change: transform;
+  z-index: 1;
+}
+
+.zoom-content {
+  position: relative;
+  text-align: center;
+  transform: scale(0);
+  z-index: 10;
+  will-change: transform;
+  opacity: 0;
+}
+
+.zoom-content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 8vw, 120px);
+  margin-bottom: 1rem;
+  color: var(--color-bg);
+}
+
+.zoom-content h2 .hyphen {
+  font-size: 0.6em;
+  vertical-align: middle;
+}
+
+.zoom-content p {
+  font-size: clamp(16px, 2vw, 24px);
+  color: var(--color-bg);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.zoom-button {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 1rem 3rem;
+  background: var(--color-light);
+  color: var(--color-primary);
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: clamp(16px, 2vw, 20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--color-light);
+}
+
+.zoom-button:hover {
+  background: transparent;
+  color: var(--color-light);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(255, 255, 255, 0.5);
+}
+
+/* Mobile Adjustments */
+@media screen and (max-width: 768px) {
+  .zoom-container {
+    height: 200vh; /* Shorter on mobile */
+  }
+
+  .zoom-circle {
+    width: 80px;
+    height: 80px;
+  }
+
+  .zoom-content h2 {
+    font-size: clamp(24px, 10vw, 60px);
+  }
+
+  .zoom-content p {
+    font-size: clamp(14px, 4vw, 18px);
+    padding: 0 1rem;
+  }
+}
+
+/* Performance optimization */
+@media (prefers-reduced-motion: reduce) {
+  .zoom-container {
+    height: 100vh;
+  }
+  
+  .zoom-circle {
+    transform: scale(25);
+  }
+  
+  .zoom-content {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Extra styling for filled state */
+.zoom {
+  transition: background-color 0.3s ease;
+}
+

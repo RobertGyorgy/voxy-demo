@@ -1,0 +1,119 @@
+/* ================================
+   RESPONSIVE STYLES
+   ================================
+   Mobile-first responsive adjustments
+*/
+
+/* Tablet and Below (768px) */
+@media screen and (max-width: 768px) {
+  /* Heading - Ensure visibility */
+  .heading {
+    top: 45vh;
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .heading p {
+    -webkit-text-stroke-width: 1.5px;
+  }
+
+  /* Tablet text container - ensure clone effect works */
+  .text-container p {
+    opacity: 0; /* Start hidden on tablet too */
+    will-change: auto; /* Reduce GPU usage */
+  }
+
+  .text-container p:first-child {
+    opacity: 1; /* Only first VOXY visible initially */
+  }
+
+  /* Image Grid */
+  .image-grid {
+    width: 90vw;
+  }
+
+  /* Parallax Images */
+  .parallax-images {
+    grid-template-columns: 1fr;
+    padding: 5rem 1rem;
+  }
+
+  .parallax-images .parallax-text {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .parallax-images .image_cont:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .parallax-images .image_cont:nth-child(3) {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+
+  /* Staggered Section */
+  .staggered {
+    row-gap: 2rem;
+  }
+
+  /* Content Padding */
+  .content {
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+/* Mobile (480px and Below) */
+@media screen and (max-width: 480px) {
+  /* Image Grid */
+  .image-grid {
+    width: 95vw;
+    grid-column-gap: 0.1rem;
+    grid-row-gap: 0.1rem;
+  }
+
+  /* Heading - Better visibility on mobile */
+  .heading {
+    top: 40vh; /* Adjust position for mobile */
+  }
+
+  .heading p {
+    -webkit-text-stroke-width: 1.5px; /* Keep visible stroke */
+    font-size: clamp(40px, 15vw, 120px); /* Ensure minimum size */
+  }
+
+  /* Mobile text container - keep all layers but optimize performance */
+  .text-container p {
+    opacity: 0; /* Start hidden on mobile too */
+    will-change: auto; /* Reduce GPU usage */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .text-container p:first-child {
+    opacity: 1; /* Only first VOXY visible initially */
+    z-index: 1000; /* Ensure first layer is on top */
+  }
+
+  /* Mobile-specific layer ordering to prevent glitch */
+  .text-container p:nth-child(2) { z-index: 999; }
+  .text-container p:nth-child(3) { z-index: 998; }
+  .text-container p:nth-child(4) { z-index: 997; }
+  .text-container p:nth-child(5) { z-index: 996; }
+  .text-container p:nth-child(6) { z-index: 995; }
+  .text-container p:nth-child(7) { z-index: 994; }
+
+}
+
+/* Large Desktop (1400px and Above) */
+@media screen and (min-width: 1400px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+
