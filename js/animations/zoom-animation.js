@@ -40,7 +40,7 @@ function initZoomAnimation() {
         pin: ".zoom",
         pinSpacing: true, // Add spacing - needed for animation to work
         anticipatePin: 1,
-        markers: true, // Temporarily enable for debugging
+        markers: GSAP_CONFIG.debug.showMarkers,
         onEnter: () => {
           console.log('Zoom animation started (desktop)');
         },
@@ -76,7 +76,7 @@ function initZoomAnimation() {
         pin: ".zoom", // Pin the zoom element (same as desktop)
         pinSpacing: true, // Add spacing for proper scroll lock
         anticipatePin: 1,
-        markers: true, // Temporarily enable for debugging
+        markers: GSAP_CONFIG.debug.showMarkers,
         onEnter: () => {
           console.log('Zoom animation started (mobile)');
         },
