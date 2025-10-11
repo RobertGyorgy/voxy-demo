@@ -5,6 +5,8 @@
 */
 
 function initZoomAnimation() {
+  console.log('initZoomAnimation called');
+  
   const prefersReducedMotion = Helpers.prefersReducedMotion();
   
   // Skip animation if user prefers reduced motion
@@ -36,7 +38,18 @@ function initZoomAnimation() {
         start: "top top",
         end: "bottom bottom",
         pin: ".zoom",
-        markers: GSAP_CONFIG.debug.showMarkers
+        pinSpacing: true, // Add spacing - needed for animation to work
+        anticipatePin: 1,
+        markers: true, // Temporarily enable for debugging
+        onEnter: () => {
+          console.log('Zoom animation started (desktop)');
+        },
+        onLeave: () => {
+          console.log('Zoom animation ended (desktop)');
+        },
+        onUpdate: (self) => {
+          console.log('Zoom progress:', self.progress);
+        }
       }
     });
 
@@ -53,27 +66,45 @@ function initZoomAnimation() {
 
     Helpers.log('Desktop zoom animation initialized', 'success');
   } else {
-    // Mobile: Moderate scale to fill mobile viewport
+    // Mobile: Larger scale and faster growth
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".zoom-container",
-        start: "top top",
+        start: "top top", // Start when section hits top
         end: "bottom bottom",
-        scrub: 1,
-        markers: GSAP_CONFIG.debug.showMarkers
+        scrub: 0.5, // Faster scrub for quicker animation (was 1)
+        pin: ".zoom", // Pin the zoom element (same as desktop)
+        pinSpacing: true, // Add spacing for proper scroll lock
+        anticipatePin: 1,
+        markers: true, // Temporarily enable for debugging
+        onEnter: () => {
+          console.log('Zoom animation started (mobile)');
+        },
+        onLeave: () => {
+          console.log('Zoom animation ended (mobile)');
+        },
+        onEnterBack: () => {
+          console.log('Zoom animation re-entered (mobile)');
+        },
+        onLeaveBack: () => {
+          console.log('Zoom animation left (mobile)');
+        },
+        onUpdate: (self) => {
+          console.log('Zoom progress (mobile):', self.progress);
+        }
       }
     });
 
     timeline
       .to(".zoom-circle", {
-        scale: 12, // Increased mobile scale
-        ease: "power2.out"
+        scale: 18, // Much larger mobile scale (was 12)
+        ease: "power1.out" // Faster easing for quicker growth
       })
       .to(".zoom-content", {
         scale: 1,
         opacity: 1,
-        ease: "power2.out"
-      }, 0.3);
+        ease: "power1.out" // Faster easing to match circle
+      }, 0.2); // Earlier content appearance (was 0.3)
 
     Helpers.log('Mobile zoom animation initialized', 'success');
   }

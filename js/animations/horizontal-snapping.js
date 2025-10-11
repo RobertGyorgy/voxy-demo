@@ -6,8 +6,12 @@
 console.log('Horizontal scroll script loaded');
 
 function initHorizontalScroll(smoother) {
+  console.log('initHorizontalScroll called with smoother:', !!smoother);
+  
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
     Helpers.log('GSAP or ScrollTrigger not available for horizontal scroll', 'warning');
+    console.log('GSAP available:', typeof gsap !== 'undefined');
+    console.log('ScrollTrigger available:', typeof ScrollTrigger !== 'undefined');
     return;
   }
 
@@ -16,6 +20,8 @@ function initHorizontalScroll(smoother) {
   
   if (!horizontalContainer || !horizontalWrapper) {
     Helpers.log('Horizontal scroll elements not found', 'warning');
+    console.log('horizontalContainer found:', !!horizontalContainer);
+    console.log('horizontalWrapper found:', !!horizontalWrapper);
     return;
   }
 
@@ -30,12 +36,14 @@ function initHorizontalScroll(smoother) {
   // Make the scroll distance match the actual horizontal movement needed
   // Each card should get enough scroll space to be fully visible
   const numberOfCards = document.querySelectorAll('.horizontal-item').length;
-  const cardWidth = 400; // Card width from CSS
+  const cardWidth = isMobile ? 280 : 400; // Narrower cards on mobile for faster scroll
   const cardGap = 32; // Gap between cards (2rem = 32px)
   const totalCardWidth = (cardWidth + cardGap) * numberOfCards - cardGap; // Total width of all cards
   const viewportWidth = window.innerWidth;
   const horizontalScrollDistance = totalCardWidth - viewportWidth; // Actual horizontal distance
-  const totalScrollDistance = horizontalScrollDistance * 1.2; // Add 20% buffer for controlled scroll
+  
+  // Different scroll distances for mobile vs desktop
+  const totalScrollDistance = isMobile ? horizontalScrollDistance : horizontalScrollDistance * 1.2; // Mobile: exact distance, Desktop: with multiplier
   
   Helpers.log(`Horizontal scroll debug: cards=${numberOfCards}, cardWidth=${cardWidth}px, totalCardWidth=${totalCardWidth}px, horizontalDistance=${horizontalScrollDistance}px, totalScrollDistance=${totalScrollDistance}px`, 'info');
   
@@ -48,15 +56,58 @@ function initHorizontalScroll(smoother) {
         trigger: '.horizontal-section',
         start: 'top top',
         end: () => "+=" + totalScrollDistance,
-        scrub: 1,
+        scrub: isMobile ? 1 : 1, // Same scrub speed for mobile and desktop
         pin: '.horizontal-section',
         pinSpacing: true,
         anticipatePin: 1,
-        invalidateOnRefresh: true
+        invalidateOnRefresh: true,
+        onEnter: () => {
+          console.log('Horizontal scroll started');
+          document.body.style.overflow = 'hidden'; // Force lock on mobile
+          // Show start indicator
+          const startIndicator = document.querySelector('.scroll-indicator.start');
+          if (startIndicator) startIndicator.classList.add('show');
+        },
+        onLeave: () => {
+          console.log('Horizontal scroll ended');
+          document.body.style.overflow = ''; // Restore scroll
+          // Hide all indicators
+          document.querySelectorAll('.scroll-indicator').forEach(indicator => {
+            indicator.classList.remove('show');
+          });
+        },
+        onEnterBack: () => {
+          console.log('Horizontal scroll re-entered');
+          document.body.style.overflow = 'hidden'; // Force lock on mobile
+          // Show end indicator when coming back
+          const endIndicator = document.querySelector('.scroll-indicator.end');
+          if (endIndicator) endIndicator.classList.add('show');
+        },
+        onLeaveBack: () => {
+          console.log('Horizontal scroll left');
+          document.body.style.overflow = ''; // Restore scroll
+          // Hide all indicators
+          document.querySelectorAll('.scroll-indicator').forEach(indicator => {
+            indicator.classList.remove('show');
+          });
+        },
+        onUpdate: (self) => {
+          // Show end indicator when scroll is almost complete
+          const progress = self.progress;
+          const endIndicator = document.querySelector('.scroll-indicator.end');
+          const startIndicator = document.querySelector('.scroll-indicator.start');
+          
+          if (progress > 0.8) {
+            if (endIndicator) endIndicator.classList.add('show');
+            if (startIndicator) startIndicator.classList.remove('show');
+          } else if (progress > 0.1) {
+            if (startIndicator) startIndicator.classList.remove('show');
+          }
+        }
       }
     });
     
-    Helpers.log(`Horizontal scroll with pinning initialized (scroll: ${scrollWidth}px, total: ${totalScrollDistance}px)`, 'success');
+    Helpers.log(`Horizontal scroll with pinning initialized (scroll: ${scrollWidth}px, total: ${totalScrollDistance}px, mobile: ${isMobile})`, 'success');
   } else {
     Helpers.log('Horizontal scroll not needed - content fits viewport', 'info');
   }
