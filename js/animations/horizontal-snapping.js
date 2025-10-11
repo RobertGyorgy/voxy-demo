@@ -33,24 +33,28 @@ function initHorizontalScroll(smoother) {
   const scrollWidth = containerWidth - window.innerWidth;
   
   // Calculate the scroll distance needed to see all cards
-  // Make the scroll distance match the actual horizontal movement needed
-  // Each card should get enough scroll space to be fully visible
-  const numberOfCards = document.querySelectorAll('.horizontal-item').length;
-  const cardWidth = isMobile ? 280 : 400; // Narrower cards on mobile for faster scroll
+  // Use actual rendered card width instead of hardcoded values
+  const cards = document.querySelectorAll('.horizontal-item');
+  const numberOfCards = cards.length;
+  
+  // Get the actual rendered width of the first card (accounts for all CSS breakpoints)
+  const firstCard = cards[0];
+  const actualCardWidth = firstCard ? firstCard.offsetWidth : (isMobile ? 280 : 400);
+  
   const cardGap = 32; // Gap between cards (2rem = 32px)
-  const totalCardWidth = (cardWidth + cardGap) * numberOfCards - cardGap; // Total width of all cards
+  const totalCardWidth = (actualCardWidth + cardGap) * numberOfCards - cardGap; // Total width of all cards
   const viewportWidth = window.innerWidth;
   const horizontalScrollDistance = totalCardWidth - viewportWidth; // Actual horizontal distance
   
-  // Different scroll distances for mobile vs desktop
-  const totalScrollDistance = isMobile ? horizontalScrollDistance : horizontalScrollDistance * 1.2; // Mobile: exact distance, Desktop: with multiplier
+  // Same calculation for both mobile and desktop - scroll until last card is visible
+  const totalScrollDistance = horizontalScrollDistance * 0.95; // 95% of exact distance for perfect stopping point
   
-  Helpers.log(`Horizontal scroll debug: cards=${numberOfCards}, cardWidth=${cardWidth}px, totalCardWidth=${totalCardWidth}px, horizontalDistance=${horizontalScrollDistance}px, totalScrollDistance=${totalScrollDistance}px`, 'info');
+  Helpers.log(`Horizontal scroll debug: cards=${numberOfCards}, actualCardWidth=${actualCardWidth}px, totalCardWidth=${totalCardWidth}px, horizontalDistance=${horizontalScrollDistance}px, totalScrollDistance=${totalScrollDistance}px`, 'info');
   
   if (scrollWidth > 0) {
     // Both mobile and desktop: Horizontal scroll with pinning (locks vertical scroll)
     gsap.to(horizontalContainer, {
-      x: () => -scrollWidth,
+      x: () => -horizontalScrollDistance,
       scrollTrigger: {
         markers: GSAP_CONFIG.debug.showMarkers,
         trigger: '.horizontal-section',
