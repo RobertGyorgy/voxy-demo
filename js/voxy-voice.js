@@ -106,6 +106,7 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       this.ws.onerror = (error) => {
         console.error('❌ WebSocket error:', error);
         console.error('❌ Error details:', error.type, error.code);
+        console.error('❌ WebSocket readyState:', this.ws.readyState);
         reject(error);
       };
       
@@ -117,12 +118,19 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
         }
       };
       
-      // Timeout after 10 seconds
-      setTimeout(() => {
+      // Timeout after 5 seconds
+      const timeoutId = setTimeout(() => {
         if (!this.isConnected) {
-          reject(new Error('Connection timeout'));
+          console.error('⏰ Connection timeout after 5 seconds');
+          console.error('⏰ WebSocket readyState:', this.ws.readyState);
+          reject(new Error('Connection timeout after 5 seconds'));
         }
-      }, 10000);
+      }, 5000);
+      
+      // Clear timeout if connection succeeds
+      this.ws.addEventListener('open', () => {
+        clearTimeout(timeoutId);
+      });
     });
   }
   
