@@ -22,14 +22,22 @@ function initVoxyTextEffects(smoother) {
     return;
   }
 
-  // Mobile-specific animation settings
-  const mobileSettings = {
-    start: "top 90%",
-    end: "top 30%",
-    yOffset: -10,
-    scrub: 0.5
-  };
+  // Mobile: Disable clone effect to prevent glitching - just show base text
+  if (isMobile) {
+    // Hide all clone layers on mobile, keep only the first one visible
+    voxyTexts.forEach((text, index) => {
+      if (index > 0) {
+        gsap.set(text, {
+          opacity: 0,
+          display: 'none'
+        });
+      }
+    });
+    Helpers.log('VOXY clone effect disabled on mobile (prevents glitching)', 'info');
+    return;
+  }
 
+  // Desktop: Full clone effect with smooth animation
   const desktopSettings = {
     start: "top 80%",
     end: "top 20%",
@@ -37,9 +45,7 @@ function initVoxyTextEffects(smoother) {
     scrub: 1
   };
 
-  const settings = isMobile ? mobileSettings : desktopSettings;
-
-  // Animate each layer with different delays - ALL LAYERS
+  // Animate each layer - ALL LAYERS (Desktop only)
   voxyTexts.forEach((text, index) => {
     if (index === 0) return; // Skip the first one (it's already visible)
     
@@ -47,43 +53,30 @@ function initVoxyTextEffects(smoother) {
     gsap.set(text, {
       opacity: 0,
       y: 0,
-      zIndex: 999 - index // Ensure proper stacking order
+      zIndex: 999 - index, // Ensure proper stacking order
+      willChange: 'transform, opacity' // Performance hint
     });
 
-    // Mobile: Simple animation without delays to prevent glitch
-    if (isMobile) {
-      gsap.to(text, {
-        scrollTrigger: {
-          trigger: ".heading",
-          start: settings.start,
-          end: settings.end,
-          scrub: settings.scrub,
-          markers: GSAP_CONFIG.debug.showMarkers,
-          toggleActions: "play none none reverse" // Allow reverse on mobile
-        },
-        opacity: 1,
-        y: settings.yOffset,
-        ease: "power1.out"
-      });
-    } else {
-      // Desktop: All layers animate together
-      gsap.to(text, {
-        scrollTrigger: {
-          trigger: ".heading",
-          start: settings.start,
-          end: settings.end,
-          scrub: settings.scrub,
-          markers: GSAP_CONFIG.debug.showMarkers,
-          toggleActions: "play none none none"
-        },
-        opacity: 1,
-        y: settings.yOffset,
-        ease: "power2.out"
-      });
-    }
+    // Desktop: All layers animate together
+    gsap.to(text, {
+      scrollTrigger: {
+        trigger: ".heading",
+        start: desktopSettings.start,
+        end: desktopSettings.end,
+        scrub: desktopSettings.scrub,
+        markers: GSAP_CONFIG.debug.showMarkers,
+        toggleActions: "play none none none"
+      },
+      opacity: 1,
+      y: desktopSettings.yOffset,
+      ease: "power2.out",
+      onComplete: () => {
+        text.style.willChange = 'auto'; // Remove performance hint after animation
+      }
+    });
   });
 
-  Helpers.log(`VOXY clone effect initialized (${isMobile ? 'mobile' : 'desktop'}) - all layers`, 'success');
+  Helpers.log('VOXY clone effect initialized (desktop only)', 'success');
 }
 
 // Export function
