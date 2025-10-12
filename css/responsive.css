@@ -181,31 +181,10 @@
     margin-top: 0.75rem;
   }
 
-  /* YouTube Thumbnail - Mobile */
-  .youtube-thumbnail-container {
-    min-height: 50vh;
-    padding: 1rem;
-  }
-
-  .youtube-thumbnail {
-    max-width: 95%;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-  }
-
-  .play-button {
-    width: 60px;
-    height: 60px;
-  }
-
-  .play-button svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .video-description {
-    font-size: clamp(1rem, 4vw, 1.4rem);
-    padding: 0 1rem;
+  /* YouTube Video - Mobile */
+  .youtube-video-container {
+    height: 50vh;
+    min-height: 300px;
   }
 }
 
