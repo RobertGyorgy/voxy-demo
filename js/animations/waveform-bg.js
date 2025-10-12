@@ -65,10 +65,10 @@ function initWaveformBackground() {
         const distToMouse = Math.hypot(x - mouse.x, height - mouse.y);
         const mouseEffect = Math.max(0, 1 - distToMouse / 300);
 
-        // Wave calculation
-        const noise = Math.sin(j * 0.08 + time + i * 0.15) * 15;
-        const spike = Math.cos(j * 0.15 + time + i * 0.08) * Math.sin(j * 0.04 + time) * 40;
-        const y = height + noise + spike * (1 + mouseEffect * 1.5);
+        // Wave calculation (increased amplitude for taller waves)
+        const noise = Math.sin(j * 0.08 + time + i * 0.15) * 40;
+        const spike = Math.cos(j * 0.15 + time + i * 0.08) * Math.sin(j * 0.04 + time) * 100;
+        const y = height + noise + spike * (1 + mouseEffect * 2.5);
         
         if (j === 0) {
           ctx.moveTo(x, y);
