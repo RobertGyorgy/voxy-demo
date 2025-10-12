@@ -200,6 +200,110 @@
   grid-row: 2;
 }
 
+/* ========== YOUTUBE THUMBNAIL ========== */
+.youtube-thumbnail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.youtube-thumbnail {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+}
+
+.youtube-thumbnail:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.youtube-thumbnail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(255, 0, 0, 0.1) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.youtube-thumbnail:hover::before {
+  opacity: 1;
+}
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 0, 0, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
+}
+
+.play-button svg {
+  width: 32px;
+  height: 32px;
+  margin-left: 4px; /* Slight offset for visual balance */
+}
+
+.youtube-thumbnail:hover .play-button {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: #ff0000;
+  box-shadow: 0 12px 30px rgba(255, 0, 0, 0.6);
+}
+
+.youtube-overlay {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+}
+
+.video-duration {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+}
+
+.video-description {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: var(--color-text);
+  font-weight: 600;
+  max-width: 600px;
+  margin: 0;
+  font-family: var(--font-body);
+}
+
 /* ========== DEMO BUTTON ========== */
 .demo-button {
   display: inline-block;
