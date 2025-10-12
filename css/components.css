@@ -261,9 +261,9 @@
 
 /* Parallax enhancement for iframe */
 .youtube-video-container iframe[data-speed="auto"] {
-  height: 140%; /* Much larger for smooth parallax without gray spaces */
+  height: 160%; /* Even larger for more dramatic parallax movement */
   width: 100%;
-  transform: translateY(-20%);
+  transform: translateY(-30%); /* Move up more for better visual space */
   transition: transform 0.1s ease-out;
   object-fit: cover;
 }

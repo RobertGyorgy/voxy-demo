@@ -204,8 +204,8 @@
   }
 
   .youtube-video-container iframe[data-speed="auto"] {
-    height: 140%; /* Same parallax effect on mobile */
-    transform: translateY(-20%);
+    height: 160%; /* Same dramatic parallax effect on mobile */
+    transform: translateY(-30%);
   }
 }
 
