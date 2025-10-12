@@ -97,10 +97,13 @@ function loadVoxyApiKey() {
   }
 }
 
-// Make VOXY_CONFIG globally available
+// Make VOXY_CONFIG globally available and load API key automatically
 if (typeof window !== 'undefined') {
   window.VOXY_CONFIG = VOXY_CONFIG;
   window.loadVoxyApiKey = loadVoxyApiKey;
+  
+  // Auto-load API key when page loads
+  loadVoxyApiKey();
 }
 
 
