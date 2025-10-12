@@ -20,13 +20,13 @@ class ThreadsBackground {
     this.currentMouse = [0.5, 0.5];
     this.targetMouse = [0.5, 0.5];
     
-    // Performance optimization: target 30 FPS instead of 60
-    this.targetFPS = 30;
+    // Performance optimization: target 45 FPS (smooth but still efficient)
+    this.targetFPS = 45;
     this.frameInterval = 1000 / this.targetFPS;
     this.lastFrameTime = 0;
     
     // Intersection Observer for visibility-based rendering
-    this.isVisible = false;
+    this.isVisible = true; // Start as visible to avoid initial delay
     this.observer = null;
     
     this.init();
@@ -94,7 +94,7 @@ class ThreadsBackground {
       
       #define PI 3.1415926538
       
-      const int u_line_count = 30;
+      const int u_line_count = 25;
       const float u_line_width = 6.0;
       const float u_line_blur = 8.0;
       
@@ -311,21 +311,19 @@ class ThreadsBackground {
   }
   
   animate(time = 0) {
-    // FPS limiting for better performance
-    const elapsed = time - this.lastFrameTime;
-    
-    if (elapsed < this.frameInterval) {
-      this.animationFrameId = requestAnimationFrame((t) => this.animate(t));
-      return;
-    }
-    
-    this.lastFrameTime = time - (elapsed % this.frameInterval);
-    
     // Only render if visible
     if (!this.isVisible) {
       this.animationFrameId = requestAnimationFrame((t) => this.animate(t));
       return;
     }
+    
+    // Simplified FPS limiting
+    const elapsed = time - this.lastFrameTime;
+    if (elapsed < this.frameInterval) {
+      this.animationFrameId = requestAnimationFrame((t) => this.animate(t));
+      return;
+    }
+    this.lastFrameTime = time;
     
     const gl = this.gl;
     
