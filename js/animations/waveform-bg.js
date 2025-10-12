@@ -54,9 +54,9 @@ function initWaveformBackground() {
       const progress = i / lineCount;
       const colorIntensity = Math.sin(progress * Math.PI);
       
-      // Teal/cyan color matching theme
-      ctx.strokeStyle = `rgba(100, 200, 255, ${colorIntensity * 0.15})`;
-      ctx.lineWidth = 1.2;
+      // Teal/cyan color matching theme (increased opacity for visibility)
+      ctx.strokeStyle = `rgba(100, 200, 255, ${colorIntensity * 0.4})`;
+      ctx.lineWidth = 2.5;
 
       for (let j = 0; j < segmentCount + 1; j++) {
         const x = (j / segmentCount) * canvas.width;
