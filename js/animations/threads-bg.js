@@ -20,7 +20,17 @@ class ThreadsBackground {
     this.currentMouse = [0.5, 0.5];
     this.targetMouse = [0.5, 0.5];
     
+    // Performance optimization: target 30 FPS instead of 60
+    this.targetFPS = 30;
+    this.frameInterval = 1000 / this.targetFPS;
+    this.lastFrameTime = 0;
+    
+    // Intersection Observer for visibility-based rendering
+    this.isVisible = false;
+    this.observer = null;
+    
     this.init();
+    this.setupVisibilityObserver();
   }
   
   init() {
@@ -73,7 +83,7 @@ class ThreadsBackground {
     `;
     
     const fragmentShader = `
-      precision highp float;
+      precision mediump float;
       
       uniform float iTime;
       uniform vec3 iResolution;
@@ -84,9 +94,9 @@ class ThreadsBackground {
       
       #define PI 3.1415926538
       
-      const int u_line_count = 40;
-      const float u_line_width = 7.0;
-      const float u_line_blur = 10.0;
+      const int u_line_count = 25;
+      const float u_line_width = 6.0;
+      const float u_line_blur = 8.0;
       
       float Perlin2D(vec2 P) {
         vec2 Pi = floor(P);
@@ -244,7 +254,12 @@ class ThreadsBackground {
   }
   
   bindEvents() {
-    this.resizeHandler = () => this.resize();
+    // Throttle resize for better performance
+    let resizeTimeout;
+    this.resizeHandler = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => this.resize(), 150);
+    };
     window.addEventListener('resize', this.resizeHandler);
     
     if (this.enableMouseInteraction) {
@@ -284,7 +299,34 @@ class ThreadsBackground {
     );
   }
   
+  setupVisibilityObserver() {
+    // Only render when visible (performance optimization)
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        this.isVisible = entry.isIntersecting;
+      });
+    }, { threshold: 0 });
+    
+    this.observer.observe(this.container);
+  }
+  
   animate(time = 0) {
+    // FPS limiting for better performance
+    const elapsed = time - this.lastFrameTime;
+    
+    if (elapsed < this.frameInterval) {
+      this.animationFrameId = requestAnimationFrame((t) => this.animate(t));
+      return;
+    }
+    
+    this.lastFrameTime = time - (elapsed % this.frameInterval);
+    
+    // Only render if visible
+    if (!this.isVisible) {
+      this.animationFrameId = requestAnimationFrame((t) => this.animate(t));
+      return;
+    }
+    
     const gl = this.gl;
     
     if (this.enableMouseInteraction) {
@@ -309,6 +351,10 @@ class ThreadsBackground {
       cancelAnimationFrame(this.animationFrameId);
     }
     
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+    
     window.removeEventListener('resize', this.resizeHandler);
     
     if (this.enableMouseInteraction) {
@@ -327,33 +373,62 @@ class ThreadsBackground {
   }
 }
 
-// Initialize threads background for horizontal scroll section
+// Initialize threads backgrounds for multiple sections
 function initThreadsBackgrounds() {
-  const section = document.querySelector('.horizontal-section');
+  const instances = [];
   
-  if (!section) {
-    console.warn('❌ Horizontal section not found for threads background');
-    return;
-  }
+  // Define sections to add threads backgrounds
+  const sections = [
+    { 
+      selector: '.title', 
+      color: [0.26, 0.41, 0.88], 
+      amplitude: 0.8,
+      opacity: 0.15 
+    },
+    { 
+      selector: '.horizontal-section', 
+      color: [0.26, 0.41, 0.88], 
+      amplitude: 1,
+      opacity: 0.2 
+    },
+    { 
+      selector: '.v-center', 
+      color: [0.26, 0.41, 0.88], 
+      amplitude: 0.6,
+      opacity: 0.1 
+    }
+  ];
   
-  // Create container for threads background
-  const threadsContainer = document.createElement('div');
-  threadsContainer.className = 'threads-bg-container';
-  section.insertBefore(threadsContainer, section.firstChild);
-  
-  // Initialize threads background with subtle animation
-  const threads = new ThreadsBackground(threadsContainer, {
-    color: [0.26, 0.41, 0.88], // Royal blue color (matching var(--color-primary))
-    amplitude: 1, // Wave amplitude
-    distance: 0, // No vertical distance
-    enableMouseInteraction: false // No hover effect
+  sections.forEach(({ selector, color, amplitude, opacity }) => {
+    const section = document.querySelector(selector);
+    
+    if (!section) {
+      console.warn(`❌ Section ${selector} not found for threads background`);
+      return;
+    }
+    
+    // Create container for threads background
+    const threadsContainer = document.createElement('div');
+    threadsContainer.className = 'threads-bg-container';
+    threadsContainer.style.opacity = opacity;
+    section.insertBefore(threadsContainer, section.firstChild);
+    
+    // Initialize threads background with optimized settings
+    const threads = new ThreadsBackground(threadsContainer, {
+      color: color,
+      amplitude: amplitude,
+      distance: 0,
+      enableMouseInteraction: false
+    });
+    
+    instances.push(threads);
   });
   
-  console.log('✅ Threads background initialized for horizontal section');
+  console.log(`✅ Threads backgrounds initialized for ${instances.length} sections`);
   
   // Return cleanup function
   return () => {
-    threads.destroy();
+    instances.forEach(instance => instance.destroy());
   };
 }
 
