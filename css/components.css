@@ -202,6 +202,7 @@
 
 /* ========== YOUTUBE VIDEO SECTION ========== */
 .youtube-video-container {
+  display: none; /* Hide video section temporarily */
   width: 90%;
   max-width: 1200px;
   height: 80vh;
