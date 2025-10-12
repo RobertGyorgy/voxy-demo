@@ -178,7 +178,7 @@
   }
   
   .horizontal-item {
-    width: 280px; /* Narrower cards on mobile for faster scroll */
+    width: 400px; /* Much wider cards on mobile for better proportions */
     height: 70vh;
     padding: 2rem;
   }
