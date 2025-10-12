@@ -189,6 +189,7 @@
     margin-left: 1rem;
     margin-right: 1rem;
     width: calc(100% - 2rem);
+    margin-top: 4vh; /* Less margin on mobile */
   }
 
   .youtube-video-container::before {
