@@ -8,31 +8,40 @@
 function initYouTubePopup() {
   console.log('🎥 initYouTubePopup called');
   
-  // Wait a bit for DOM to be fully ready
-  setTimeout(() => {
-    const videoContainer = document.getElementById('youtubeVideoContainer');
-    const videoOverlay = document.getElementById('videoClickOverlay');
-    const popupOverlay = document.getElementById('youtubePopup');
-    const popupIframe = document.querySelector('.youtube-popup-iframe');
-    const closeButton = document.getElementById('youtubePopupClose');
-    
-    console.log('🔍 Elements found:', {
-      videoContainer: !!videoContainer,
-      videoOverlay: !!videoOverlay,
-      popupOverlay: !!popupOverlay,
-      popupIframe: !!popupIframe,
-      closeButton: !!closeButton
-    });
-    
-    if (!videoContainer || !videoOverlay || !popupOverlay || !popupIframe || !closeButton) {
-      console.warn('❌ YouTube popup elements not found, retrying...');
-      // Retry after a longer delay
-      setTimeout(initYouTubePopup, 500);
-      return;
-    }
-    
-    setupPopupEvents(videoOverlay, popupOverlay, popupIframe, closeButton);
-  }, 100);
+  // Wait for DOM to be ready
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(setupYouTubePopup, 200);
+  });
+  
+  // Also try immediate setup if DOM is already ready
+  if (document.readyState !== 'loading') {
+    setTimeout(setupYouTubePopup, 200);
+  }
+}
+
+function setupYouTubePopup() {
+  console.log('🔧 Setting up YouTube popup');
+  
+  const videoContainer = document.getElementById('youtubeVideoContainer');
+  const videoOverlay = document.getElementById('videoClickOverlay');
+  const popupOverlay = document.getElementById('youtubePopup');
+  const popupIframe = document.querySelector('.youtube-popup-iframe');
+  const closeButton = document.getElementById('youtubePopupClose');
+  
+  console.log('🔍 Elements found:', {
+    videoContainer: !!videoContainer,
+    videoOverlay: !!videoOverlay,
+    popupOverlay: !!popupOverlay,
+    popupIframe: !!popupIframe,
+    closeButton: !!closeButton
+  });
+  
+  if (!videoContainer || !videoOverlay || !popupOverlay || !popupIframe || !closeButton) {
+    console.warn('❌ YouTube popup elements not found');
+    return;
+  }
+  
+  setupPopupEvents(videoOverlay, popupOverlay, popupIframe, closeButton);
 }
 
 function setupPopupEvents(videoOverlay, popupOverlay, popupIframe, closeButton) {
@@ -42,11 +51,12 @@ function setupPopupEvents(videoOverlay, popupOverlay, popupIframe, closeButton) 
   const originalVideoUrl = 'https://www.youtube.com/embed/D1bV9YiIEzU?si=w5g8oz8E81EZGrIb';
   const popupVideoUrl = 'https://www.youtube.com/embed/D1bV9YiIEzU?si=w5g8oz8E81EZGrIb&autoplay=1';
   
-  // Click handler for video overlay
-  videoOverlay.addEventListener('click', function(e) {
-    console.log('🖱️ Video overlay clicked');
-    e.preventDefault();
-    e.stopPropagation();
+  // Function to open popup
+  function openPopup() {
+    console.log('🎬 Opening popup');
+    
+    // Scroll to top to ensure popup is visible
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     
     // Set popup iframe source with autoplay
     popupIframe.src = popupVideoUrl;
@@ -58,7 +68,26 @@ function setupPopupEvents(videoOverlay, popupOverlay, popupIframe, closeButton) 
     document.body.style.overflow = 'hidden';
     
     console.log('✅ YouTube popup opened');
+  }
+  
+  // Click handler for video overlay
+  videoOverlay.addEventListener('click', function(e) {
+    console.log('🖱️ Video overlay clicked');
+    e.preventDefault();
+    e.stopPropagation();
+    openPopup();
   });
+  
+  // Backup click handler for video container
+  const videoContainer = document.getElementById('youtubeVideoContainer');
+  if (videoContainer) {
+    videoContainer.addEventListener('click', function(e) {
+      console.log('🖱️ Video container clicked (backup)');
+      e.preventDefault();
+      e.stopPropagation();
+      openPopup();
+    });
+  }
   
   // Close button handler
   closeButton.addEventListener('click', function(e) {
@@ -104,9 +133,5 @@ function setupPopupEvents(videoOverlay, popupOverlay, popupIframe, closeButton) 
   console.log('✅ YouTube popup initialized');
 }
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initYouTubePopup);
-} else {
-  initYouTubePopup();
-}
+// Initialize the popup
+initYouTubePopup();
