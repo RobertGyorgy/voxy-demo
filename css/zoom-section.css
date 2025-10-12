@@ -6,7 +6,7 @@
 
 .zoom-container {
   position: relative;
-  height: 200vh; /* Tall enough to create scroll distance for animation */
+  height: 150vh; /* Reduced height to cut empty space */
   background: var(--color-bg);
   margin-left: calc(-1 * var(--content-padding));
   margin-right: calc(-1 * var(--content-padding));
@@ -89,7 +89,7 @@
 /* Mobile Adjustments */
 @media screen and (max-width: 768px) {
   .zoom-container {
-    height: 200vh; /* Same as desktop - pinning handles scroll distance */
+    height: 150vh; /* Reduced height to cut empty space on mobile too */
   }
 
   .zoom-circle {
