@@ -1,0 +1,33 @@
+{
+  "name": "voxy-ai-landing",
+  "version": "1.0.0",
+  "description": "Voxy Voice AI - Landing Page with Secure Voice Integration",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python3 -m http.server 8003",
+    "start": "python3 -m http.server 8003",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "vercel --prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RobertGyorgy/voxy-ai.git"
+  },
+  "keywords": [
+    "voxy",
+    "voice-ai",
+    "openai",
+    "realtime-api",
+    "conversational-ai",
+    "brasov",
+    "romania"
+  ],
+  "author": "VOXY Team - Brașov",
+  "license": "MIT",
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
