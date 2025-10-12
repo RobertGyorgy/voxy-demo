@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/base.css?v=30">
   <link rel="stylesheet" href="css/layout.css?v=29">
   <link rel="stylesheet" href="css/typography.css?v=29">
-  <link rel="stylesheet" href="css/components.css?v=37">
+  <link rel="stylesheet" href="css/components.css?v=38">
   <link rel="stylesheet" href="css/zoom-section.css?v=45">
   <link rel="stylesheet" href="css/horizontal-scroll.css?v=44">
   <link rel="stylesheet" href="css/responsive.css?v=36">
@@ -110,7 +110,7 @@
       </section>
 
       <section class="v-center">
-        <div class="parallax-slab youtube-video-container">
+        <div class="parallax-slab youtube-video-container" id="youtubeVideoContainer">
           <iframe 
             data-speed="auto" 
             src="https://www.youtube.com/embed/D1bV9YiIEzU?si=w5g8oz8E81EZGrIb" 
@@ -123,6 +123,22 @@
           </iframe>
         </div>
       </section>
+
+      <!-- YouTube Video Popup -->
+      <div class="youtube-popup-overlay" id="youtubePopup">
+        <div class="youtube-popup-container">
+          <iframe 
+            class="youtube-popup-iframe"
+            src="" 
+            title="VOXY Demo Video - Full Screen" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
+          <button class="youtube-popup-close" id="youtubePopupClose"></button>
+        </div>
+      </div>
 
       <section class="staggered container">
         <div class="staggered_text">
@@ -188,6 +204,7 @@
     <script src="js/animations/horizontal-snapping.js?v=23"></script>
   <script src="js/animations/zoom-animation.js?v=21"></script>
   <script src="js/animations/demo-toggle.js"></script>
+  <script src="js/animations/youtube-popup.js"></script>
   
   <!-- Main Initialization -->
   <script src="js/main.js?v=8"></script>
