@@ -62,21 +62,26 @@ function initDemoToggle() {
       // Initialize Voxy Voice
       if (!voxyVoice) {
         console.log('🎤 Initializing Voxy with voice:', VOXY_VOICE);
+        console.log('🔑 API Key available:', !!VOXY_API_KEY);
+        console.log('🔑 API Key starts with:', VOXY_API_KEY ? VOXY_API_KEY.substring(0, 20) + '...' : 'NONE');
+        
         voxyVoice = new VoxyVoice(VOXY_API_KEY, VOXY_VOICE);
         
         try {
           const content = demoCircle.querySelector('.demo-circle-text');
           content.textContent = 'Conectare...';
           
+          console.log('🔄 Attempting to connect to OpenAI...');
           await voxyVoice.connect();
           
           content.textContent = 'Click pentru a începe';
-          console.log('✅ Voxy Voice connected');
+          console.log('✅ Voxy Voice connected successfully');
           
         } catch (error) {
           console.error('❌ Failed to connect:', error);
+          console.error('❌ Error details:', error.message, error.stack);
           const content = demoCircle.querySelector('.demo-circle-text');
-          content.textContent = 'Eroare conexiune';
+          content.textContent = 'Eroare conexiune: ' + error.message;
         }
       }
     } else {
