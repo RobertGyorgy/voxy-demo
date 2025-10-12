@@ -280,6 +280,7 @@
   opacity: 0;
   transition: opacity 0.5s ease;
   padding: 0.5rem 0; /* Reduced from 1rem to 0.5rem */
+  margin-top: -2rem; /* Negative margin to pull circle closer to button */
 }
 
 /* ========== SIRI ORB ========== */

@@ -73,6 +73,7 @@
   .demo-circle-container {
     width: 250px;
     height: 180px; /* Reduced from 250px to 180px */
+    margin-top: -2rem; /* Negative margin to pull circle closer to button */
   }
 
   .demo-circle {
@@ -150,6 +151,7 @@
   .demo-circle-container {
     width: 220px;
     height: 160px; /* Reduced from 220px to 160px */
+    margin-top: -2rem; /* Negative margin to pull circle closer to button */
   }
 
   .demo-circle {
