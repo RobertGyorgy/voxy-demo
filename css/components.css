@@ -201,6 +201,10 @@
 }
 
 /* ========== YOUTUBE VIDEO SECTION ========== */
+.v-center {
+  display: none; /* Hide entire video section temporarily */
+}
+
 .youtube-video-container {
   display: none; /* Hide video section temporarily */
   width: 90%;
