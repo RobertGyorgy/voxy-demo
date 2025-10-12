@@ -183,8 +183,8 @@
 
   /* YouTube Video - Mobile */
   .youtube-video-container {
-    height: 50vh;
-    min-height: 300px;
+    height: 65vh;
+    min-height: 400px;
     border-radius: 16px;
     margin-left: 1rem;
     margin-right: 1rem;
