@@ -41,12 +41,12 @@
   flex-shrink: 0;
   width: 400px;
   height: 80vh;
-  /* Liquid Glass Effect (Glassmorphism) */
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  /* Enhanced Liquid Glass Effect with Edge Lighting */
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 24px;
   padding: 3rem;
   display: flex;
   flex-direction: column;
@@ -56,36 +56,50 @@
   color: var(--color-text);
   position: relative;
   overflow: hidden;
-  /* Enhanced glass shadow */
+  /* Multi-layer glass shadow with inner glow */
   box-shadow: 
-    0 8px 32px 0 rgba(31, 38, 135, 0.15),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.5);
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 16px 8px rgba(255, 255, 255, 0.8);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Glass shimmer effect on ::before */
+/* Top edge highlight */
 .horizontal-item::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
+  left: 0;
+  right: 0;
+  height: 1px;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.8),
     transparent
   );
-  transition: left 0.7s ease;
-  z-index: 1;
+  z-index: 3;
 }
 
-.horizontal-item:hover::before {
-  left: 100%;
+/* Left edge highlight */
+.horizontal-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+  z-index: 3;
 }
 
-/* Ensure content is above shimmer */
+/* Ensure content is above edge highlights */
 .horizontal-item h3,
 .horizontal-item p {
   position: relative;
@@ -95,11 +109,13 @@
 .horizontal-item:hover {
   transform: translateY(-12px) scale(1.02);
   /* Enhanced hover glass effect */
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 
-    0 12px 48px 0 rgba(31, 38, 135, 0.25),
-    inset 0 1px 2px 0 rgba(255, 255, 255, 0.6),
+    0 12px 48px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 0 20px 10px rgba(255, 255, 255, 0.9),
     0 0 20px rgba(65, 105, 225, 0.2);
 }
 
