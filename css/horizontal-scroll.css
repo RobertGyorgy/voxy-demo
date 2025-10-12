@@ -2,7 +2,13 @@
 
 .horizontal-section {
   position: relative;
-  background: var(--color-light);
+  /* Gradient background for glass effect enhancement */
+  background: linear-gradient(
+    135deg,
+    rgba(237, 242, 254, 1) 0%,
+    rgba(247, 250, 252, 1) 50%,
+    rgba(230, 240, 255, 1) 100%
+  );
   overflow: hidden;
   margin-left: calc(-1 * var(--content-padding));
   margin-right: calc(-1 * var(--content-padding));
@@ -35,9 +41,12 @@
   flex-shrink: 0;
   width: 400px;
   height: 80vh;
-  background: var(--color-light);
-  border: 2px solid var(--color-primary);
-  border-radius: 20px;
+  /* Liquid Glass Effect (Glassmorphism) */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
   padding: 3rem;
   display: flex;
   flex-direction: column;
@@ -47,51 +56,51 @@
   color: var(--color-text);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(65, 105, 225, 0.2);
-  transition: all 0.3s ease;
+  /* Enhanced glass shadow */
+  box-shadow: 
+    0 8px 32px 0 rgba(31, 38, 135, 0.15),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Glass shimmer effect on ::before */
+.horizontal-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.7s ease;
+  z-index: 1;
+}
+
+.horizontal-item:hover::before {
+  left: 100%;
+}
+
+/* Ensure content is above shimmer */
+.horizontal-item h3,
+.horizontal-item p {
+  position: relative;
+  z-index: 2;
 }
 
 .horizontal-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(65, 105, 225, 0.4);
-}
-
-/* Threads Background Container - Behind entire section */
-.horizontal-section .threads-bg-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Layer-specific opacities for depth effect */
-.horizontal-section .threads-bg-container.threads-top {
-  opacity: 0.12;
-}
-
-.horizontal-section .threads-bg-container.threads-mid {
-  opacity: 0.18;
-}
-
-.horizontal-section .threads-bg-container.threads-bottom {
-  opacity: 0.12;
-}
-
-.threads-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* Ensure section content is above background */
-.horizontal-container {
-  position: relative;
-  z-index: 1;
+  transform: translateY(-12px) scale(1.02);
+  /* Enhanced hover glass effect */
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 12px 48px 0 rgba(31, 38, 135, 0.25),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.6),
+    0 0 20px rgba(65, 105, 225, 0.2);
 }
 
 .horizontal-item h3 {

@@ -27,9 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize VOXY clone effects
   initVoxyTextEffects(smoother);
 
-  // Initialize threads backgrounds for horizontal cards
-  initThreadsBackgrounds();
-
   // Initialize horizontal scroll (with small delay to ensure ScrollSmoother is ready)
   setTimeout(() => {
     initHorizontalScroll(smoother);
