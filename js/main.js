@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize VOXY clone effects
   initVoxyTextEffects(smoother);
 
+  // Initialize waveform background for horizontal section
+  initWaveformBackground();
+
   // Initialize horizontal scroll (with small delay to ensure ScrollSmoother is ready)
   setTimeout(() => {
     initHorizontalScroll(smoother);
