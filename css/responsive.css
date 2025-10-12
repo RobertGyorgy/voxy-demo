@@ -72,7 +72,7 @@
   /* Demo Circle - Tablet */
   .demo-circle-container {
     width: 250px;
-    height: 250px;
+    height: 180px; /* Reduced from 250px to 180px */
   }
 
   .demo-circle {
@@ -149,7 +149,7 @@
   /* Demo Circle - Mobile */
   .demo-circle-container {
     width: 220px;
-    height: 220px;
+    height: 160px; /* Reduced from 220px to 160px */
   }
 
   .demo-circle {
