@@ -185,6 +185,22 @@
   .youtube-video-container {
     height: 50vh;
     min-height: 300px;
+    border-radius: 16px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: calc(100% - 2rem);
+  }
+
+  .youtube-video-container::before {
+    border-radius: 16px;
+  }
+
+  .youtube-video-container iframe {
+    border-radius: 16px;
+  }
+
+  .youtube-video-container:hover {
+    transform: translateY(-4px) scale(1.01);
   }
 }
 
