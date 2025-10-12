@@ -64,8 +64,14 @@ const VOXY_CONFIG = {
 
 // Load API key securely
 function loadVoxyApiKey() {
-  // For production: API key is handled by serverless proxy
-  // For development: Check localStorage or prompt user
+  // Try to load from Netlify environment variable (injected at build time)
+  if (typeof window !== 'undefined' && window.VOXY_API_KEY) {
+    VOXY_CONFIG.apiKey = window.VOXY_API_KEY;
+    console.log('✅ API key loaded from Netlify environment');
+    return;
+  }
+  
+  // Fallback: Check localStorage
   const storedKey = localStorage.getItem('voxy_api_key');
   
   if (storedKey && storedKey.trim().startsWith('sk-')) {
@@ -74,7 +80,7 @@ function loadVoxyApiKey() {
     return;
   }
   
-  // If no stored key, prompt user (development only)
+  // Last resort: prompt user (development only)
   const apiKey = prompt(
     '🔑 Pentru demo-ul Voxy, introduceți OpenAI API Key:\n\n' +
     '(Obțineți de la: https://platform.openai.com/api-keys)\n\n' +
