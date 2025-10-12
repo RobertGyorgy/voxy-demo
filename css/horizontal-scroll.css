@@ -179,7 +179,7 @@
   
   .horizontal-item {
     width: 400px; /* Much wider cards on mobile for better proportions */
-    height: 70vh;
+    height: 50vh; /* Reduced height to make cards less tall */
     padding: 2rem;
   }
   
