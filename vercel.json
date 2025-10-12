@@ -9,12 +9,7 @@
     }
   },
   "env": {
-    "VOXY_API_KEY": "@voxy-api-key"
-  },
-  "build": {
-    "env": {
-      "VOXY_API_KEY": "@voxy-api-key"
-    }
+    "VOXY_API_KEY": ""
   },
   "headers": [
     {
