@@ -65,7 +65,19 @@ function initDemoToggle() {
         console.log('🔑 API Key available:', !!VOXY_API_KEY);
         console.log('🔑 API Key starts with:', VOXY_API_KEY ? VOXY_API_KEY.substring(0, 20) + '...' : 'NONE');
         
+        // Check if VoxyVoice class is available
+        console.log('🔍 VoxyVoice class available:', typeof window.VoxyVoice);
+        
+        if (typeof window.VoxyVoice === 'undefined') {
+          console.error('❌ VoxyVoice class not found! Check if voxy-voice.js is loaded');
+          const content = demoCircle.querySelector('.demo-circle-text');
+          content.textContent = 'Eroare: VoxyVoice nu este încărcat';
+          return;
+        }
+        
+        console.log('✅ Creating VoxyVoice instance...');
         voxyVoice = new VoxyVoice(VOXY_API_KEY, VOXY_VOICE);
+        console.log('✅ VoxyVoice instance created:', !!voxyVoice);
         
         try {
           const content = demoCircle.querySelector('.demo-circle-text');
