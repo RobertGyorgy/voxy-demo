@@ -6,6 +6,11 @@
 
 /* Tablet and Below (768px) */
 @media screen and (max-width: 768px) {
+  /* Title Section - Reduce size for tablet */
+  .title h1 {
+    font-size: clamp(12px, 7vw, 90px);
+  }
+
   /* Heading - Ensure visibility */
   .heading {
     top: 45vh;
@@ -67,6 +72,11 @@
 
 /* Mobile (480px and Below) */
 @media screen and (max-width: 480px) {
+  /* Title Section - Smaller text to prevent overflow */
+  .title h1 {
+    font-size: clamp(10px, 6.5vw, 80px);
+  }
+
   /* Image Grid */
   .image-grid {
     width: 95vw;
