@@ -25,7 +25,7 @@ class VoxyVoice {
     // Configuration from realtime-voice-ai/config.js
     this.config = {
       REALTIME_API_URL: 'wss://api.openai.com/v1/realtime',
-      MODEL: 'gpt-4o-realtime-preview-2024-10-01',
+      MODEL: 'gpt-4o-mini-realtime-preview-2024-12-17',
       AUDIO: {
         sampleRate: 24000,
         playbackSpeed: 0.95
@@ -248,8 +248,15 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
   async startListening() {
     console.log('🎤 Starting audio capture...');
     
+    // Check if running on mobile/Android
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    console.log('📱 Mobile device detected:', isMobile);
+    
     try {
-      this.mediaStream = await navigator.mediaDevices.getUserMedia({
+      // Simplified audio constraints for better mobile compatibility
+      const audioConstraints = isMobile ? {
+        audio: true // Use default settings on mobile for better compatibility
+      } : {
         audio: {
           channelCount: 1,
           sampleRate: 24000,
@@ -257,7 +264,10 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
           noiseSuppression: true,
           autoGainControl: true
         }
-      });
+      };
+      
+      console.log('🎤 Requesting microphone with constraints:', audioConstraints);
+      this.mediaStream = await navigator.mediaDevices.getUserMedia(audioConstraints);
       
       this.audioContext = new (window.AudioContext || window.webkitAudioContext)({
         sampleRate: 24000
