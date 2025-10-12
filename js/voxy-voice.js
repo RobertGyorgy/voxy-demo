@@ -25,7 +25,7 @@ class VoxyVoice {
     // Configuration from realtime-voice-ai/config.js
     this.config = {
       REALTIME_API_URL: 'wss://api.openai.com/v1/realtime',
-      MODEL: 'gpt-4o-realtime-preview-2024-10-01',
+      MODEL: 'gpt-4o-realtime-2024-10-01',
       AUDIO: {
         sampleRate: 24000,
         playbackSpeed: 0.95
