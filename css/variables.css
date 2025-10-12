@@ -5,13 +5,58 @@
 */
 
 /* Font Imports */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap");
+
+/* OSFont - For Titles */
+@font-face {
+  font-family: "OSFont";
+  src: url("../fonts/OSFont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* HKGrotesk - For Body Text */
+@font-face {
+  font-family: "HKGrotesk";
+  src: url("../fonts/HKGrotesk-ExtraLight.woff2") format("woff2"),
+       url("../fonts/HKGrotesk-ExtraLight.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
 
 @font-face {
-  font-family: "wild_worldbold";
-  src: url("https://assets.codepen.io/756881/wild_world-webfont.woff2") format("woff2"),
-       url("https://assets.codepen.io/756881/wild_world-webfont.woff") format("woff");
-  font-weight: normal;
+  font-family: "HKGrotesk";
+  src: url("../fonts/HKGrotesk-Light.woff2") format("woff2"),
+       url("../fonts/HKGrotesk-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HKGrotesk";
+  src: url("../fonts/HKGrotesk-Regular.woff2") format("woff2"),
+       url("../fonts/HKGrotesk-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HKGrotesk";
+  src: url("../fonts/HKGrotesk-Medium.woff2") format("woff2"),
+       url("../fonts/HKGrotesk-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HKGrotesk";
+  src: url("../fonts/HKGrotesk-Black.woff2") format("woff2"),
+       url("../fonts/HKGrotesk-Black.woff") format("woff");
+  font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
@@ -87,11 +132,13 @@
   /* ================================
      TYPOGRAPHY
      ================================ */
-  --font-body: "Open Sans", sans-serif;
-  --font-display: "wild_worldbold", sans-serif;
+  --font-body: "HKGrotesk", sans-serif;
+  --font-display: "OSFont", sans-serif;
+  --font-weight-extralight: 200;
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
+  --font-weight-black: 900;
 
   /* ================================
      ANIMATION
