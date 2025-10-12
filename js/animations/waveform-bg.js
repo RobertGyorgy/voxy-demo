@@ -65,9 +65,13 @@ function initWaveformBackground() {
         const distToMouse = Math.hypot(x - mouse.x, height - mouse.y);
         const mouseEffect = Math.max(0, 1 - distToMouse / 300);
 
-        // Wave calculation (even taller waves with dramatic amplitude)
-        const noise = Math.sin(j * 0.08 + time + i * 0.15) * 80;
-        const spike = Math.cos(j * 0.15 + time + i * 0.08) * Math.sin(j * 0.04 + time) * 200;
+        // Wave calculation - smaller amplitude on mobile
+        const isMobile = window.innerWidth <= 768;
+        const noiseAmplitude = isMobile ? 40 : 80; // Half amplitude on mobile
+        const spikeAmplitude = isMobile ? 100 : 200; // Half amplitude on mobile
+        
+        const noise = Math.sin(j * 0.08 + time + i * 0.15) * noiseAmplitude;
+        const spike = Math.cos(j * 0.15 + time + i * 0.08) * Math.sin(j * 0.04 + time) * spikeAmplitude;
         const y = height + noise + spike * (1 + mouseEffect * 4);
         
         if (j === 0) {
