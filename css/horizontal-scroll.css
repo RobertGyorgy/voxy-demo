@@ -56,8 +56,8 @@
   box-shadow: 0 15px 40px rgba(65, 105, 225, 0.4);
 }
 
-/* Threads Background Container */
-.threads-bg-container {
+/* Threads Background Container - Behind entire section */
+.horizontal-section .threads-bg-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -65,8 +65,7 @@
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.15; /* Subtle background effect */
-  border-radius: 20px;
+  opacity: 0.2; /* Subtle background effect */
 }
 
 .threads-canvas {
@@ -75,12 +74,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 20px;
 }
 
-/* Ensure content is above background */
-.horizontal-item h3,
-.horizontal-item p {
+/* Ensure section content is above background */
+.horizontal-container {
   position: relative;
   z-index: 1;
 }

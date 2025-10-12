@@ -327,33 +327,33 @@ class ThreadsBackground {
   }
 }
 
-// Initialize threads backgrounds for all horizontal cards
+// Initialize threads background for horizontal scroll section
 function initThreadsBackgrounds() {
-  const cards = document.querySelectorAll('.horizontal-item');
-  const instances = [];
+  const section = document.querySelector('.horizontal-section');
   
-  cards.forEach((card) => {
-    // Create container for threads background
-    const threadsContainer = document.createElement('div');
-    threadsContainer.className = 'threads-bg-container';
-    card.insertBefore(threadsContainer, card.firstChild);
-    
-    // Initialize threads background with subtle animation
-    const threads = new ThreadsBackground(threadsContainer, {
-      color: [0.26, 0.41, 0.88], // Royal blue color (matching var(--color-primary))
-      amplitude: 0.5, // Subtle wave amplitude
-      distance: 0, // No vertical distance
-      enableMouseInteraction: false // No hover effect
-    });
-    
-    instances.push(threads);
+  if (!section) {
+    console.warn('❌ Horizontal section not found for threads background');
+    return;
+  }
+  
+  // Create container for threads background
+  const threadsContainer = document.createElement('div');
+  threadsContainer.className = 'threads-bg-container';
+  section.insertBefore(threadsContainer, section.firstChild);
+  
+  // Initialize threads background with subtle animation
+  const threads = new ThreadsBackground(threadsContainer, {
+    color: [0.26, 0.41, 0.88], // Royal blue color (matching var(--color-primary))
+    amplitude: 1, // Wave amplitude
+    distance: 0, // No vertical distance
+    enableMouseInteraction: false // No hover effect
   });
   
-  console.log(`✅ Threads backgrounds initialized for ${instances.length} cards`);
+  console.log('✅ Threads background initialized for horizontal section');
   
   // Return cleanup function
   return () => {
-    instances.forEach(instance => instance.destroy());
+    threads.destroy();
   };
 }
 
