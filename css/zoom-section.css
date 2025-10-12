@@ -51,8 +51,10 @@
 }
 
 .zoom-content h2 .hyphen {
-  font-size: 0.8em;
+  font-size: 1.2em;
+  font-weight: 900;
   vertical-align: middle;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .zoom-content p {
