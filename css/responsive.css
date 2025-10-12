@@ -202,6 +202,11 @@
   .youtube-video-container:hover {
     transform: translateY(-4px) scale(1.01);
   }
+
+  .youtube-video-container iframe[data-speed="auto"] {
+    height: 140%; /* Same parallax effect on mobile */
+    transform: translateY(-20%);
+  }
 }
 
 /* Large Desktop (1400px and Above) */
