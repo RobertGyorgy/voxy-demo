@@ -8,31 +8,45 @@
 function initYouTubePopup() {
   console.log('🎥 initYouTubePopup called');
   
-  const videoContainer = document.getElementById('youtubeVideoContainer');
-  const popupOverlay = document.getElementById('youtubePopup');
-  const popupIframe = document.querySelector('.youtube-popup-iframe');
-  const closeButton = document.getElementById('youtubePopupClose');
-  
-  console.log('🔍 Elements found:', {
-    videoContainer: !!videoContainer,
-    popupOverlay: !!popupOverlay,
-    popupIframe: !!popupIframe,
-    closeButton: !!closeButton
-  });
-  
-  if (!videoContainer || !popupOverlay || !popupIframe || !closeButton) {
-    console.warn('❌ YouTube popup elements not found');
-    return;
-  }
+  // Wait a bit for DOM to be fully ready
+  setTimeout(() => {
+    const videoContainer = document.getElementById('youtubeVideoContainer');
+    const videoOverlay = document.getElementById('videoClickOverlay');
+    const popupOverlay = document.getElementById('youtubePopup');
+    const popupIframe = document.querySelector('.youtube-popup-iframe');
+    const closeButton = document.getElementById('youtubePopupClose');
+    
+    console.log('🔍 Elements found:', {
+      videoContainer: !!videoContainer,
+      videoOverlay: !!videoOverlay,
+      popupOverlay: !!popupOverlay,
+      popupIframe: !!popupIframe,
+      closeButton: !!closeButton
+    });
+    
+    if (!videoContainer || !videoOverlay || !popupOverlay || !popupIframe || !closeButton) {
+      console.warn('❌ YouTube popup elements not found, retrying...');
+      // Retry after a longer delay
+      setTimeout(initYouTubePopup, 500);
+      return;
+    }
+    
+    setupPopupEvents(videoOverlay, popupOverlay, popupIframe, closeButton);
+  }, 100);
+}
+
+function setupPopupEvents(videoOverlay, popupOverlay, popupIframe, closeButton) {
+  console.log('🔧 Setting up popup events');
   
   // Original video URL
   const originalVideoUrl = 'https://www.youtube.com/embed/D1bV9YiIEzU?si=w5g8oz8E81EZGrIb';
   const popupVideoUrl = 'https://www.youtube.com/embed/D1bV9YiIEzU?si=w5g8oz8E81EZGrIb&autoplay=1';
   
-  // Click handler for video container
-  videoContainer.addEventListener('click', function(e) {
-    console.log('🖱️ Video container clicked');
+  // Click handler for video overlay
+  videoOverlay.addEventListener('click', function(e) {
+    console.log('🖱️ Video overlay clicked');
     e.preventDefault();
+    e.stopPropagation();
     
     // Set popup iframe source with autoplay
     popupIframe.src = popupVideoUrl;
