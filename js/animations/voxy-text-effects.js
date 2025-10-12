@@ -22,18 +22,34 @@ function initVoxyTextEffects(smoother) {
     return;
   }
 
-  // Mobile: Disable clone effect to prevent glitching - just show base text
+  // Mobile: Simple non-scrubbed animation to prevent glitching
   if (isMobile) {
-    // Hide all clone layers on mobile, keep only the first one visible
     voxyTexts.forEach((text, index) => {
-      if (index > 0) {
-        gsap.set(text, {
-          opacity: 0,
-          display: 'none'
-        });
-      }
+      if (index === 0) return; // Skip the first one (it's already visible)
+      
+      // Set initial state
+      gsap.set(text, {
+        opacity: 0,
+        y: 0,
+        zIndex: 999 - index
+      });
+
+      // Simple fade-in animation (no scrub = no glitching)
+      gsap.to(text, {
+        scrollTrigger: {
+          trigger: ".heading",
+          start: "top 80%",
+          toggleActions: "play none none none", // Play once, no reverse
+          markers: GSAP_CONFIG.debug.showMarkers
+        },
+        opacity: 1,
+        y: -5, // Small offset
+        duration: 0.6,
+        delay: index * 0.1, // Stagger appearance
+        ease: "power1.out"
+      });
     });
-    Helpers.log('VOXY clone effect disabled on mobile (prevents glitching)', 'info');
+    Helpers.log('VOXY clone effect initialized (mobile - simple fade)', 'success');
     return;
   }
 
