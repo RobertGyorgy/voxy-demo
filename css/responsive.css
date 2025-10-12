@@ -186,10 +186,9 @@
     height: 65vh;
     min-height: 400px;
     border-radius: 16px;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    width: calc(100% - 2rem);
-    margin-top: 4vh; /* Less margin on mobile */
+    width: 95%;
+    max-width: none;
+    margin: 4vh auto 0 auto;
   }
 
   .youtube-video-container::before {

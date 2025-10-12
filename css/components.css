@@ -202,13 +202,11 @@
 
 /* ========== YOUTUBE VIDEO SECTION ========== */
 .youtube-video-container {
-  width: 100%;
+  width: 90%;
+  max-width: 1200px;
   height: 80vh;
   min-height: 500px;
-  margin-left: calc(-1 * var(--content-padding));
-  margin-right: calc(-1 * var(--content-padding));
-  width: calc(100% + (2 * var(--content-padding)));
-  margin-top: 8vh; /* Move video section down */
+  margin: 8vh auto 0 auto;
   overflow: hidden;
   border-radius: 20px;
   position: relative;
