@@ -2,12 +2,6 @@
   command = "node build.js"
   publish = "."
 
-[build.environment]
-  VOXY_API_KEY = ""
-
-[[plugins]]
-  package = "@netlify/plugin-inject-env"
-
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
