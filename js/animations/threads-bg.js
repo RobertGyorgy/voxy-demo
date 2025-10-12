@@ -94,7 +94,7 @@ class ThreadsBackground {
       
       #define PI 3.1415926538
       
-      const int u_line_count = 25;
+      const int u_line_count = 30;
       const float u_line_width = 6.0;
       const float u_line_blur = 8.0;
       
@@ -270,6 +270,17 @@ class ThreadsBackground {
     }
   }
   
+  setupVisibilityObserver() {
+    // Only render when visible (performance optimization)
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        this.isVisible = entry.isIntersecting;
+      });
+    }, { threshold: 0 });
+    
+    this.observer.observe(this.container);
+  }
+  
   handleMouseMove(e) {
     const rect = this.container.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
@@ -297,17 +308,6 @@ class ThreadsBackground {
       this.canvas.height,
       this.canvas.width / this.canvas.height
     );
-  }
-  
-  setupVisibilityObserver() {
-    // Only render when visible (performance optimization)
-    this.observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        this.isVisible = entry.isIntersecting;
-      });
-    }, { threshold: 0 });
-    
-    this.observer.observe(this.container);
   }
   
   animate(time = 0) {
@@ -373,58 +373,57 @@ class ThreadsBackground {
   }
 }
 
-// Initialize threads backgrounds for multiple sections
+// Initialize threads backgrounds for horizontal scroll section (3 layers)
 function initThreadsBackgrounds() {
+  const section = document.querySelector('.horizontal-section');
+  
+  if (!section) {
+    console.warn('❌ Horizontal section not found for threads background');
+    return;
+  }
+  
   const instances = [];
   
-  // Define sections to add threads backgrounds
-  const sections = [
-    { 
-      selector: '.title', 
-      color: [0.26, 0.41, 0.88], 
-      amplitude: 0.8,
-      opacity: 0.15 
-    },
-    { 
-      selector: '.horizontal-section', 
-      color: [0.26, 0.41, 0.88], 
-      amplitude: 1,
-      opacity: 0.2 
-    },
-    { 
-      selector: '.v-center', 
-      color: [0.26, 0.41, 0.88], 
-      amplitude: 0.6,
-      opacity: 0.1 
-    }
-  ];
+  // Layer 1: Top threads
+  const topContainer = document.createElement('div');
+  topContainer.className = 'threads-bg-container threads-top';
+  section.insertBefore(topContainer, section.firstChild);
   
-  sections.forEach(({ selector, color, amplitude, opacity }) => {
-    const section = document.querySelector(selector);
-    
-    if (!section) {
-      console.warn(`❌ Section ${selector} not found for threads background`);
-      return;
-    }
-    
-    // Create container for threads background
-    const threadsContainer = document.createElement('div');
-    threadsContainer.className = 'threads-bg-container';
-    threadsContainer.style.opacity = opacity;
-    section.insertBefore(threadsContainer, section.firstChild);
-    
-    // Initialize threads background with optimized settings
-    const threads = new ThreadsBackground(threadsContainer, {
-      color: color,
-      amplitude: amplitude,
-      distance: 0,
-      enableMouseInteraction: false
-    });
-    
-    instances.push(threads);
+  const topThreads = new ThreadsBackground(topContainer, {
+    color: [0.26, 0.41, 0.88],
+    amplitude: 0.8,
+    distance: 0.3, // Spread upwards
+    enableMouseInteraction: false
   });
+  instances.push(topThreads);
   
-  console.log(`✅ Threads backgrounds initialized for ${instances.length} sections`);
+  // Layer 2: Middle threads (main)
+  const midContainer = document.createElement('div');
+  midContainer.className = 'threads-bg-container threads-mid';
+  section.insertBefore(midContainer, section.firstChild);
+  
+  const midThreads = new ThreadsBackground(midContainer, {
+    color: [0.26, 0.41, 0.88],
+    amplitude: 1,
+    distance: 0,
+    enableMouseInteraction: false
+  });
+  instances.push(midThreads);
+  
+  // Layer 3: Bottom threads
+  const bottomContainer = document.createElement('div');
+  bottomContainer.className = 'threads-bg-container threads-bottom';
+  section.insertBefore(bottomContainer, section.firstChild);
+  
+  const bottomThreads = new ThreadsBackground(bottomContainer, {
+    color: [0.26, 0.41, 0.88],
+    amplitude: 0.8,
+    distance: -0.3, // Spread downwards
+    enableMouseInteraction: false
+  });
+  instances.push(bottomThreads);
+  
+  console.log('✅ Threads backgrounds initialized (3 layers) for horizontal section');
   
   // Return cleanup function
   return () => {
