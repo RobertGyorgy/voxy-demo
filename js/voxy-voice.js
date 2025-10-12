@@ -77,8 +77,11 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       this.apiKey = VOXY_CONFIG.apiKey;
     }
     
+    console.log('🔑 Using API key:', this.apiKey.substring(0, 20) + '...');
+    
     return new Promise((resolve, reject) => {
       const url = `${this.config.REALTIME_API_URL}?model=${this.config.MODEL}`;
+      console.log('🌐 WebSocket URL:', url);
       
       this.ws = new WebSocket(url, [
         'realtime',
@@ -89,21 +92,25 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       this.ws.binaryType = 'arraybuffer';
       
       this.ws.onopen = () => {
-        console.log('✅ WebSocket connected');
+        console.log('✅ WebSocket connected successfully');
         this.isConnected = true;
         this.sendSessionConfig();
         resolve();
       };
       
-      this.ws.onmessage = (event) => this.handleMessage(event);
+      this.ws.onmessage = (event) => {
+        console.log('📨 WebSocket message received:', event.data);
+        this.handleMessage(event);
+      };
       
       this.ws.onerror = (error) => {
         console.error('❌ WebSocket error:', error);
+        console.error('❌ Error details:', error.type, error.code);
         reject(error);
       };
       
-      this.ws.onclose = () => {
-        console.log('🔌 WebSocket closed');
+      this.ws.onclose = (event) => {
+        console.log('🔌 WebSocket closed:', event.code, event.reason);
         this.isConnected = false;
         if (this.isListening) {
           this.stopListening();

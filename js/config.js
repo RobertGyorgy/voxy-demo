@@ -64,10 +64,12 @@ const VOXY_CONFIG = {
 
 // Load API key securely
 function loadVoxyApiKey() {
+  console.log('🔍 Loading API key...');
+  
   // Try to load from Netlify environment variable (injected at build time)
   if (typeof window !== 'undefined' && window.VOXY_API_KEY) {
     VOXY_CONFIG.apiKey = window.VOXY_API_KEY;
-    console.log('✅ API key loaded from Netlify environment');
+    console.log('✅ API key loaded from Netlify environment:', window.VOXY_API_KEY.substring(0, 20) + '...');
     return;
   }
   
@@ -76,11 +78,12 @@ function loadVoxyApiKey() {
   
   if (storedKey && storedKey.trim().startsWith('sk-')) {
     VOXY_CONFIG.apiKey = storedKey.trim();
-    console.log('✅ API key loaded from localStorage');
+    console.log('✅ API key loaded from localStorage:', storedKey.substring(0, 20) + '...');
     return;
   }
   
   // Last resort: prompt user (development only)
+  console.warn('⚠️ No API key found, prompting user...');
   const apiKey = prompt(
     '🔑 Pentru demo-ul Voxy, introduceți OpenAI API Key:\n\n' +
     '(Obțineți de la: https://platform.openai.com/api-keys)\n\n' +
@@ -91,9 +94,9 @@ function loadVoxyApiKey() {
     const trimmedKey = apiKey.trim();
     localStorage.setItem('voxy_api_key', trimmedKey);
     VOXY_CONFIG.apiKey = trimmedKey;
-    console.log('✅ API key saved and loaded');
+    console.log('✅ API key saved and loaded:', trimmedKey.substring(0, 20) + '...');
   } else {
-    console.warn('⚠️ No valid API key provided');
+    console.error('❌ No valid API key provided');
   }
 }
 
