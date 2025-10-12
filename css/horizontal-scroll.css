@@ -216,7 +216,7 @@
   
   .horizontal-item {
     width: 250px;
-    height: 65vh;
+    height: 45vh; /* Reduced height for small mobile screens too */
     padding: 1.5rem;
   }
   
