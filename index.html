@@ -15,10 +15,10 @@
   <link rel="stylesheet" href="css/base.css?v=30">
   <link rel="stylesheet" href="css/layout.css?v=29">
   <link rel="stylesheet" href="css/typography.css?v=29">
-  <link rel="stylesheet" href="css/components.css?v=29">
+  <link rel="stylesheet" href="css/components.css?v=31">
   <link rel="stylesheet" href="css/zoom-section.css?v=43">
   <link rel="stylesheet" href="css/horizontal-scroll.css?v=38">
-  <link rel="stylesheet" href="css/responsive.css?v=30">
+  <link rel="stylesheet" href="css/responsive.css?v=31">
 </head>
 <body>
   <div id="wrapper">
@@ -119,12 +119,28 @@
         <div class="staggered_text">
           <div class="flow content">
             <p>Avem un demo care te lasă fără cuvinte. Vezi ce poate face.</p>
-            <a href="#demo" class="demo-button">Vezi demo-ul</a>
+            <button class="demo-button" id="toggleDemoBtn">Vezi demo-ul</button>
           </div>
         </div>
 
-        <div class="staggered_demo">
+        <div class="staggered_demo" id="demoContainer">
           <h3 id="split-stagger">VOXY</h3>
+          
+          <!-- Demo Circle -->
+          <div class="demo-circle-container">
+            <div class="demo-circle" id="demoCircle">
+              <div class="demo-circle-content">
+                <div class="demo-circle-icon">🎤</div>
+                <div class="demo-circle-text">Conectare...</div>
+              </div>
+              <div class="demo-circle-hint">Click pentru a începe</div>
+            </div>
+            
+            <!-- Stop Button -->
+            <button class="stop-conversation-btn" id="stopConversationBtn" style="display: none;">
+              Stop Conversație
+            </button>
+          </div>
         </div>
       </section>
 
@@ -161,9 +177,10 @@
   <script src="js/animations/voxy-text-effects.js?v=3"></script>
     <script src="js/animations/horizontal-snapping.js?v=23"></script>
   <script src="js/animations/zoom-animation.js?v=21"></script>
+  <script src="js/animations/demo-toggle.js"></script>
   
   <!-- Main Initialization -->
-  <script src="js/main.js?v=6"></script>
+  <script src="js/main.js?v=7"></script>
 </body>
 </html>
 

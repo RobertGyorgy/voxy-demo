@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize zoom animation
   initZoomAnimation();
 
+  // Initialize demo toggle
+  initDemoToggle();
+
   // Refresh ScrollTrigger after initial setup
   ScrollTrigger.refresh();
 

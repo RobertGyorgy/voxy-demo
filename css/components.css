@@ -200,4 +200,251 @@
   grid-row: 2;
 }
 
+/* ========== DEMO BUTTON ========== */
+.demo-button {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  background: var(--color-primary);
+  color: var(--color-light);
+  text-decoration: none;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(65, 105, 225, 0.3);
+}
+
+.demo-button:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(65, 105, 225, 0.4);
+}
+
+/* ========== DEMO CIRCLE ========== */
+.demo-circle-container {
+  position: relative;
+  width: 300px;
+  height: auto;
+  min-height: 300px;
+  display: none !important; /* Hidden by default */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  padding: 1rem 0;
+}
+
+/* ========== SIRI ORB ========== */
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.demo-circle {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: grid;
+  grid-template-areas: "stack";
+  overflow: hidden;
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.08) 0%,
+    rgba(0, 0, 0, 0.03) 30%,
+    transparent 70%
+  );
+}
+
+.demo-circle::before {
+  content: "";
+  display: block;
+  grid-area: stack;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      from calc(var(--angle) * 1.2) at 30% 65%,
+      oklch(75% 0.15 350) 0deg,
+      transparent 45deg 315deg,
+      oklch(75% 0.15 350) 360deg
+    ),
+    conic-gradient(
+      from calc(var(--angle) * 0.8) at 70% 35%,
+      oklch(80% 0.12 200) 0deg,
+      transparent 60deg 300deg,
+      oklch(80% 0.12 200) 360deg
+    ),
+    conic-gradient(
+      from calc(var(--angle) * -1.5) at 65% 75%,
+      oklch(78% 0.14 280) 0deg,
+      transparent 90deg 270deg,
+      oklch(78% 0.14 280) 360deg
+    ),
+    conic-gradient(
+      from calc(var(--angle) * 2.1) at 25% 25%,
+      oklch(80% 0.12 200) 0deg,
+      transparent 30deg 330deg,
+      oklch(80% 0.12 200) 360deg
+    ),
+    conic-gradient(
+      from calc(var(--angle) * -0.7) at 80% 80%,
+      oklch(78% 0.14 280) 0deg,
+      transparent 45deg 315deg,
+      oklch(78% 0.14 280) 360deg
+    ),
+    radial-gradient(
+      ellipse 120% 80% at 40% 60%,
+      oklch(75% 0.15 350) 0%,
+      transparent 50%
+    );
+  filter: blur(20px) contrast(1.8) saturate(1.2);
+  animation: siri-rotate 20s linear infinite;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.demo-circle::after {
+  content: "";
+  display: block;
+  grid-area: stack;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 45% 55%,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    transparent 60%
+  );
+  mix-blend-mode: overlay;
+}
+
+@keyframes siri-rotate {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}
+
+.demo-circle:hover::before {
+  filter: blur(22px) contrast(2) saturate(1.3);
+}
+
+.demo-circle.listening::before {
+  animation: siri-rotate 10s linear infinite, pulse-siri 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-siri {
+  0%, 100% {
+    filter: blur(20px) contrast(1.8) saturate(1.2);
+  }
+  50% {
+    filter: blur(25px) contrast(2.2) saturate(1.5);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .demo-circle::before {
+    animation: none;
+  }
+  
+  .demo-circle.listening::before {
+    animation: none;
+  }
+}
+
+.demo-circle-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  grid-area: stack;
+  z-index: 5;
+  position: relative;
+  justify-content: center;
+  color: #2d3748;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+               0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.demo-circle-icon {
+  font-size: 4rem;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.demo-circle-text {
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  max-width: 200px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.demo-circle.listening .demo-circle-text {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.demo-circle-hint {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  color: #4a5568;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.stop-conversation-btn {
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(245, 101, 101, 0.4);
+}
+
+.stop-conversation-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 101, 101, 0.6);
+}
+
+.stop-conversation-btn:active {
+  transform: translateY(0);
+}
+
+/* When demo is active, show circle and hide VOXY text */
+.staggered_demo.demo-active .demo-circle-container {
+  display: flex !important;
+  opacity: 1;
+}
+
+.staggered_demo.demo-active #split-stagger {
+  display: none !important;
+  opacity: 0;
+}
 
