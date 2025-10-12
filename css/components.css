@@ -271,11 +271,11 @@
   position: relative;
   width: 300px;
   height: auto;
-  min-height: 200px; /* Reduced from 300px to 200px */
+  min-height: 350px; /* Increased to accommodate circle + stop button */
   display: none !important; /* Hidden by default */
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Changed from center to flex-start */
   gap: 0.5rem;
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -294,8 +294,13 @@
   position: relative;
   width: 250px;
   height: 250px;
+  min-width: 250px; /* Prevent shrinking */
+  min-height: 250px; /* Prevent shrinking */
+  max-width: 250px; /* Prevent growing */
+  max-height: 250px; /* Prevent growing */
   border-radius: 50%;
   cursor: pointer;
+  flex-shrink: 0; /* Prevent flexbox from shrinking the circle */
   transition: all 0.3s ease;
   display: grid;
   grid-template-areas: "stack";
