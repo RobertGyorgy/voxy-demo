@@ -167,6 +167,13 @@ function initDemoToggle() {
         console.log('🎤 Starting continuous listening mode');
         
         try {
+          // For mobile, add a small delay and ensure user interaction
+          const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+          if (isMobile) {
+            console.log('📱 Mobile detected - adding interaction delay');
+            await new Promise(resolve => setTimeout(resolve, 500));
+          }
+          
           await voxyVoice.startListening();
           content.textContent = 'Conversație activă...';
           isVoiceActive = true;
@@ -176,6 +183,11 @@ function initDemoToggle() {
           console.error('❌ Failed to start listening:', error);
           content.textContent = 'Permite microfon';
           demoCircle.classList.remove('listening');
+          
+          // Show more specific error message on mobile
+          if (isMobile && error.message.includes('Permission denied')) {
+            content.textContent = 'Click "Permite" în browser';
+          }
         }
       }, 4000);
       

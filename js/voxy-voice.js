@@ -253,6 +253,13 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       throw new Error('MediaDevices API not supported. Please use HTTPS.');
     }
     
+    // Force user interaction on mobile (required for Android)
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile && this.audioContext && this.audioContext.state === 'suspended') {
+      console.log('📱 Resuming audio context for mobile...');
+      await this.audioContext.resume();
+    }
+    
     // Check current permissions
     try {
       const permissionStatus = await navigator.permissions.query({ name: 'microphone' });
@@ -289,30 +296,30 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       this.mediaStream = await navigator.mediaDevices.getUserMedia(audioConstraints);
       console.log('✅ getUserMedia successful, stream:', this.mediaStream);
       
+      // Create audio context with mobile-optimized settings
       this.audioContext = new (window.AudioContext || window.webkitAudioContext)({
-        sampleRate: 24000
+        sampleRate: isMobile ? 44100 : 24000, // Use 44.1kHz on mobile for better compatibility
+        latencyHint: 'interactive'
       });
       
+      console.log('🎤 Audio context created:', this.audioContext.sampleRate + 'Hz');
+      
+      // Resume audio context if suspended (required on mobile)
+      if (this.audioContext.state === 'suspended') {
+        console.log('🎤 Resuming suspended audio context...');
+        await this.audioContext.resume();
+      }
+      
       const source = this.audioContext.createMediaStreamSource(this.mediaStream);
-      this.audioProcessor = this.audioContext.createScriptProcessor(4096, 1, 1);
       
-      this.audioProcessor.onaudioprocess = (event) => {
-        if (!this.isConnected || !this.isListening) return;
-        
-        const inputData = event.inputBuffer.getChannelData(0);
-        const pcm16 = new Int16Array(inputData.length);
-        
-        for (let i = 0; i < inputData.length; i++) {
-          const s = Math.max(-1, Math.min(1, inputData[i]));
-          pcm16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
-        }
-        
-        const base64Audio = this.arrayBufferToBase64(pcm16.buffer);
-        this.sendAudioChunk(base64Audio);
-      };
-      
-      source.connect(this.audioProcessor);
-      this.audioProcessor.connect(this.audioContext.destination);
+      // Use different audio processing approaches for mobile vs desktop
+      if (isMobile) {
+        console.log('📱 Using mobile-optimized audio processing');
+        await this.setupMobileAudioProcessing(source);
+      } else {
+        console.log('💻 Using desktop audio processing');
+        this.setupDesktopAudioProcessing(source);
+      }
       
       this.isListening = true;
       console.log('✅ Audio capture started');
@@ -339,6 +346,51 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     }
   }
   
+  // Mobile-optimized audio processing
+  async setupMobileAudioProcessing(source) {
+    try {
+      // Try to use AudioWorklet if available (modern browsers)
+      if (this.audioContext.audioWorklet) {
+        console.log('📱 Using AudioWorklet for mobile');
+        // For now, fallback to ScriptProcessor for compatibility
+        this.setupDesktopAudioProcessing(source);
+        return;
+      }
+    } catch (error) {
+      console.warn('📱 AudioWorklet not supported, using fallback:', error.message);
+    }
+    
+    // Fallback: Use ScriptProcessor with mobile-optimized settings
+    console.log('📱 Using ScriptProcessor fallback for mobile');
+    this.setupDesktopAudioProcessing(source);
+  }
+  
+  // Desktop audio processing (ScriptProcessor)
+  setupDesktopAudioProcessing(source) {
+    // Use smaller buffer size for mobile, larger for desktop
+    const bufferSize = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 2048 : 4096;
+    
+    this.audioProcessor = this.audioContext.createScriptProcessor(bufferSize, 1, 1);
+    
+    this.audioProcessor.onaudioprocess = (event) => {
+      if (!this.isConnected || !this.isListening) return;
+      
+      const inputData = event.inputBuffer.getChannelData(0);
+      const pcm16 = new Int16Array(inputData.length);
+      
+      for (let i = 0; i < inputData.length; i++) {
+        const s = Math.max(-1, Math.min(1, inputData[i]));
+        pcm16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+      }
+      
+      const base64Audio = this.arrayBufferToBase64(pcm16.buffer);
+      this.sendAudioChunk(base64Audio);
+    };
+    
+    source.connect(this.audioProcessor);
+    this.audioProcessor.connect(this.audioContext.destination);
+  }
+
   // Stop listening
   stopListening() {
     console.log('🛑 Stopping audio capture...');
