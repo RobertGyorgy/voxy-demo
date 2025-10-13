@@ -253,8 +253,10 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       throw new Error('MediaDevices API not supported. Please use HTTPS.');
     }
     
-    // Force user interaction on mobile (required for Android)
+    // Check if running on mobile/Android
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Force user interaction on mobile (required for Android)
     if (isMobile && this.audioContext && this.audioContext.state === 'suspended') {
       console.log('📱 Resuming audio context for mobile...');
       await this.audioContext.resume();
@@ -271,9 +273,6 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     } catch (permError) {
       console.warn('⚠️ Could not check microphone permissions:', permError.message);
     }
-    
-    // Check if running on mobile/Android
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     console.log('📱 Mobile device detected:', isMobile);
     
     try {
