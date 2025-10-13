@@ -66,7 +66,14 @@ const VOXY_CONFIG = {
 async function loadVoxyApiKey() {
   console.log('🔍 Loading API key...');
   
-  // Try to load from Vercel environment variable via API
+  // Try to load from build-time injection (Vercel/Netlify)
+  if (typeof window !== 'undefined' && window.VOXY_API_KEY) {
+    VOXY_CONFIG.apiKey = window.VOXY_API_KEY;
+    console.log('✅ API key loaded from build-time injection:', window.VOXY_API_KEY.substring(0, 20) + '...');
+    return;
+  }
+  
+  // Fallback: Try to load from Vercel environment variable via API
   try {
     const response = await fetch('/api/voxy-proxy?action=get-api-key');
     if (response.ok) {

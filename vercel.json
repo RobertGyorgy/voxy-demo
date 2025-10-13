@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "echo 'Static site - no build needed'",
+  "buildCommand": "node build.js",
   "outputDirectory": ".",
   "framework": null,
   "functions": {

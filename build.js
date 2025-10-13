@@ -1,10 +1,10 @@
-// build.js - Netlify Build Script
+// build.js - Build Script for Vercel/Netlify
 // This script injects environment variables into the HTML at build time
 
 const fs = require('fs');
 const path = require('path');
 
-console.log('🔧 Building VOXY AI for Netlify...');
+console.log('🔧 Building VOXY AI for deployment...');
 
 // Read the HTML file
 const htmlPath = path.join(__dirname, 'index.html');
@@ -21,7 +21,7 @@ if (apiKey) {
 <script>
   // Environment variables injected at build time
   window.VOXY_API_KEY = '${apiKey}';
-  console.log('🔧 Environment variables loaded');
+  console.log('🔧 Environment variables loaded from build');
 </script>`;
   
   // Inject before closing </head> tag
