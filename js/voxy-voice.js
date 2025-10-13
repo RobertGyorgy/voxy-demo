@@ -248,6 +248,23 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
   async startListening() {
     console.log('🎤 Starting audio capture...');
     
+    // Check if mediaDevices is available
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error('MediaDevices API not supported. Please use HTTPS.');
+    }
+    
+    // Check current permissions
+    try {
+      const permissionStatus = await navigator.permissions.query({ name: 'microphone' });
+      console.log('🎤 Microphone permission status:', permissionStatus.state);
+      
+      if (permissionStatus.state === 'denied') {
+        throw new Error('Microphone access denied. Please allow microphone access in browser settings.');
+      }
+    } catch (permError) {
+      console.warn('⚠️ Could not check microphone permissions:', permError.message);
+    }
+    
     // Check if running on mobile/Android
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     console.log('📱 Mobile device detected:', isMobile);
@@ -267,7 +284,10 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       };
       
       console.log('🎤 Requesting microphone with constraints:', audioConstraints);
+      console.log('🎤 About to call getUserMedia...');
+      
       this.mediaStream = await navigator.mediaDevices.getUserMedia(audioConstraints);
+      console.log('✅ getUserMedia successful, stream:', this.mediaStream);
       
       this.audioContext = new (window.AudioContext || window.webkitAudioContext)({
         sampleRate: 24000
@@ -299,7 +319,23 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       
     } catch (error) {
       console.error('❌ Failed to start audio capture:', error);
-      throw error;
+      console.error('❌ Error name:', error.name);
+      console.error('❌ Error message:', error.message);
+      
+      // Provide user-friendly error messages
+      let userMessage = 'Eroare la accesarea microfonului';
+      
+      if (error.name === 'NotAllowedError') {
+        userMessage = 'Accesul la microfon a fost refuzat. Vă rugăm să permiteți accesul la microfon în setările browser-ului.';
+      } else if (error.name === 'NotFoundError') {
+        userMessage = 'Nu s-a găsit microfon. Vă rugăm să verificați că aveți un microfon conectat.';
+      } else if (error.name === 'NotSupportedError') {
+        userMessage = 'Browser-ul nu suportă accesul la microfon. Vă rugăm să folosiți HTTPS.';
+      } else if (error.name === 'SecurityError') {
+        userMessage = 'Eroare de securitate. Vă rugăm să folosiți HTTPS și să permiteți accesul la microfon.';
+      }
+      
+      throw new Error(userMessage);
     }
   }
   
