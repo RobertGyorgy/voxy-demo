@@ -168,7 +168,7 @@
           <div class="zoom-circle"></div>
           <div class="zoom-content">
             <h2>MULTUMIM CA<br>NE<span class="hyphen">-</span>AI AUZIT</h2>
-            <a href="#contact" class="zoom-button">HAI SA VORBIM</a>
+            <a href="#" class="zoom-button" id="contactBtn">HAI SA VORBIM</a>
           </div>
         </div>
       </section>
@@ -199,7 +199,35 @@
     <script src="js/animations/horizontal-snapping.js?v=23"></script>
   <script src="js/animations/zoom-animation.js?v=21"></script>
   <script src="js/animations/demo-toggle.js"></script>
+  <script src="js/animations/contact-popup.js"></script>
   
+  <!-- Contact Popup -->
+  <div id="contactPopup" class="contact-popup">
+    <div class="contact-popup-content">
+      <div class="contact-popup-header">
+        <h3>Contactează-ne pe WhatsApp</h3>
+        <button class="contact-popup-close" id="closeContactPopup">&times;</button>
+      </div>
+      <div class="contact-popup-body">
+        <p>Alege numărul de telefon pentru a ne contacta:</p>
+        <div class="contact-options">
+          <a href="https://wa.me/40724071975" target="_blank" class="contact-option">
+            <div class="contact-phone">
+              <span class="phone-number">+40 724 071 975</span>
+              <span class="phone-label">WhatsApp Business</span>
+            </div>
+          </a>
+          <a href="https://wa.me/40770279935" target="_blank" class="contact-option">
+            <div class="contact-phone">
+              <span class="phone-number">+40 770 279 935</span>
+              <span class="phone-label">WhatsApp Personal</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Main Initialization -->
   <script src="js/main.js?v=8"></script>
 </body>

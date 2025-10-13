@@ -41,6 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize demo toggle
   initDemoToggle();
 
+  // Initialize contact popup
+  initContactPopup();
+
   // Refresh ScrollTrigger after initial setup
   ScrollTrigger.refresh();
 
