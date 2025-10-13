@@ -63,14 +63,22 @@ const VOXY_CONFIG = {
 };
 
 // Load API key securely
-function loadVoxyApiKey() {
+async function loadVoxyApiKey() {
   console.log('🔍 Loading API key...');
   
-  // Try to load from Netlify environment variable (injected at build time)
-  if (typeof window !== 'undefined' && window.VOXY_API_KEY) {
-    VOXY_CONFIG.apiKey = window.VOXY_API_KEY;
-    console.log('✅ API key loaded from Netlify environment:', window.VOXY_API_KEY.substring(0, 20) + '...');
-    return;
+  // Try to load from Vercel environment variable via API
+  try {
+    const response = await fetch('/api/voxy-proxy?action=get-api-key');
+    if (response.ok) {
+      const data = await response.json();
+      if (data.apiKey && data.apiKey.startsWith('sk-')) {
+        VOXY_CONFIG.apiKey = data.apiKey;
+        console.log('✅ API key loaded from Vercel environment:', data.apiKey.substring(0, 20) + '...');
+        return;
+      }
+    }
+  } catch (error) {
+    console.warn('⚠️ Could not load API key from server:', error.message);
   }
   
   // Fallback: Check localStorage
@@ -106,7 +114,9 @@ if (typeof window !== 'undefined') {
   window.loadVoxyApiKey = loadVoxyApiKey;
   
   // Auto-load API key when page loads
-  loadVoxyApiKey();
+  loadVoxyApiKey().catch(error => {
+    console.error('❌ Failed to load API key:', error);
+  });
 }
 
 

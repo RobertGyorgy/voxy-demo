@@ -25,6 +25,16 @@ export default async function handler(req, res) {
       });
     }
 
+    // Special endpoint to get API key for frontend
+    if (req.method === 'GET' && req.query.action === 'get-api-key') {
+      console.log('🔑 API key requested by frontend');
+      return res.json({
+        apiKey: apiKey,
+        status: 'success',
+        timestamp: new Date().toISOString()
+      });
+    }
+
     // Extract model from query parameters
     const model = req.query.model || 'gpt-4o-realtime-preview-2024-10-01';
     
