@@ -176,14 +176,16 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
         voice: this.voice,
         input_audio_format: 'pcm16',
         output_audio_format: 'pcm16',
+        // Force Romanian language for all responses
+        language: 'ro',
         input_audio_transcription: {
           model: 'whisper-1-large', // Better accuracy for call center AI
           language: 'ro' // Romanian language
         },
-        // Force text processing to use cheaper model
-        model: 'gpt-4o-mini', // Override default GPT-5 for text processing
+        // Force text processing to use model that respects instructions better
+        model: 'gpt-4o', // Better instruction following than gpt-4o-mini
         turn_detection: this.config.SESSION.turn_detection,
-        temperature: this.config.SESSION.temperature,
+        temperature: 0.1, // Lower temperature for more consistent Romanian responses
         max_response_output_tokens: 512 // Reduced from 4096 to save costs
       }
     };
@@ -205,7 +207,7 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
         content: [
           {
             type: 'input_text',
-            text: '[Start conversation - introduce yourself as Voxy]'
+            text: '[Start conversation - introduce yourself as Voxy in Romanian only. Speak ONLY in Romanian language. Do not use English or any other language.]'
           }
         ]
       }
