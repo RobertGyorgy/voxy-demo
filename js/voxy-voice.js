@@ -78,6 +78,9 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     }
     
     console.log('🔑 Using API key:', this.apiKey.substring(0, 20) + '...');
+    console.log('🔑 Full API key length:', this.apiKey.length);
+    console.log('🔑 API key starts with:', this.apiKey.substring(0, 15));
+    console.log('🔑 API key ends with:', this.apiKey.substring(this.apiKey.length - 10));
     
     return new Promise((resolve, reject) => {
       const url = `${this.config.REALTIME_API_URL}?model=${this.config.MODEL}`;
