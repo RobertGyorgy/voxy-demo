@@ -82,17 +82,36 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     console.log('🔑 API key starts with:', this.apiKey.substring(0, 15));
     console.log('🔑 API key ends with:', this.apiKey.substring(this.apiKey.length - 10));
     
-    return new Promise((resolve, reject) => {
-      // Use proxy endpoint instead of direct OpenAI connection
-      const url = `${this.config.REALTIME_API_URL}?model=${this.config.MODEL}`;
-      console.log('🌐 WebSocket URL:', url);
-      console.log('🔒 Using secure proxy connection');
-      
-      // No need for API key header when using proxy
-      this.ws = new WebSocket(url, [
-        'realtime',
-        'openai-beta.realtime-v1'
-      ]);
+    return new Promise(async (resolve, reject) => {
+      try {
+        // First, get API key from proxy
+        console.log('🔒 Getting API key from secure proxy...');
+        const proxyResponse = await fetch('/api/voxy-proxy?action=get-api-key');
+        const proxyData = await proxyResponse.json();
+        
+        if (!proxyData.apiKey) {
+          throw new Error('Failed to get API key from proxy');
+        }
+        
+        console.log('✅ API key obtained from proxy');
+        
+        // Now connect directly to OpenAI with the secure API key
+        const url = `wss://api.openai.com/v1/realtime?model=${this.config.MODEL}`;
+        console.log('🌐 WebSocket URL:', url);
+        
+        const apiKeyHeader = `openai-insecure-api-key.${proxyData.apiKey}`;
+        console.log('🔑 Using secure API key from proxy');
+        
+        this.ws = new WebSocket(url, [
+          'realtime',
+          apiKeyHeader,
+          'openai-beta.realtime-v1'
+        ]);
+      } catch (error) {
+        console.error('❌ Failed to get API key from proxy:', error);
+        reject(error);
+        return;
+      }
       
       this.ws.binaryType = 'arraybuffer';
       

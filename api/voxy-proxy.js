@@ -63,11 +63,16 @@ export default async function handler(req, res) {
 
     // Handle WebSocket upgrade requests
     if (req.headers.upgrade === 'websocket') {
+      console.log('🔌 WebSocket upgrade request detected');
+      
       // For WebSocket connections, we need to handle this differently
-      // This is a simplified approach - in production you might want more sophisticated handling
-      return res.status(426).json({
-        error: 'WebSocket upgrade not supported through proxy',
-        message: 'Use direct connection for WebSocket'
+      // Since Vercel serverless functions don't support WebSocket upgrades,
+      // we'll return the API key for the client to use directly
+      return res.json({
+        apiKey: apiKey,
+        websocketUrl: openaiUrl,
+        status: 'websocket_key_provided',
+        message: 'Use this API key for direct WebSocket connection'
       });
     }
 
