@@ -83,17 +83,14 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     console.log('🔑 API key ends with:', this.apiKey.substring(this.apiKey.length - 10));
     
     return new Promise((resolve, reject) => {
+      // Use proxy endpoint instead of direct OpenAI connection
       const url = `${this.config.REALTIME_API_URL}?model=${this.config.MODEL}`;
       console.log('🌐 WebSocket URL:', url);
+      console.log('🔒 Using secure proxy connection');
       
-      const apiKeyHeader = `openai-insecure-api-key.${this.apiKey}`;
-      console.log('🔑 API key header length:', apiKeyHeader.length);
-      console.log('🔑 API key header starts with:', apiKeyHeader.substring(0, 30));
-      console.log('🔑 API key header ends with:', apiKeyHeader.substring(apiKeyHeader.length - 20));
-      
+      // No need for API key header when using proxy
       this.ws = new WebSocket(url, [
         'realtime',
-        apiKeyHeader,
         'openai-beta.realtime-v1'
       ]);
       

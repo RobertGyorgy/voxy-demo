@@ -59,7 +59,7 @@ const VOXY_CONFIG = {
   voice: 'ballad', // Masculine, deep voice
   
   // API endpoint - Will use proxy for secure connection
-  apiUrl: 'wss://api.openai.com/v1/realtime'
+  apiUrl: '/api/voxy-proxy'
 };
 
 // Load API key securely
