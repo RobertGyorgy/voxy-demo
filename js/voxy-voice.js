@@ -22,6 +22,11 @@ class VoxyVoice {
     this.nextPlayTime = 0;
     this.currentAudioSources = [];
     
+    // Rate limiting for audio chunks
+    this.lastAudioChunkTime = 0;
+    this.audioChunkInterval = 100; // Minimum 100ms between audio chunks (10 chunks/second max)
+    this.isProcessingAudio = false;
+    
     // Configuration from realtime-voice-ai/config.js
     this.config = {
       REALTIME_API_URL: 'wss://api.openai.com/v1/realtime',
@@ -35,7 +40,7 @@ class VoxyVoice {
           type: 'server_vad',
           threshold: 0.5,
           prefix_padding_ms: 300,
-          silence_duration_ms: 1500
+          silence_duration_ms: 2000 // Increased to reduce false triggers
         },
         temperature: 0.8,
         instructions: `Tu ești Voxy — un agent vocal conversațional de ultimă generație, dezvoltat manual de o echipă ambițioasă din Brașov, România.
@@ -171,9 +176,11 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
         input_audio_transcription: {
           model: 'whisper-1'
         },
+        // Force text processing to use cheaper model
+        model: 'gpt-4o-mini', // Override default GPT-5 for text processing
         turn_detection: this.config.SESSION.turn_detection,
         temperature: this.config.SESSION.temperature,
-        max_response_output_tokens: 4096
+        max_response_output_tokens: 512 // Reduced from 4096 to save costs
       }
     };
     
@@ -396,7 +403,16 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     this.audioProcessor = this.audioContext.createScriptProcessor(bufferSize, 1, 1);
     
     this.audioProcessor.onaudioprocess = (event) => {
-      if (!this.isConnected || !this.isListening) return;
+      if (!this.isConnected || !this.isListening || this.isProcessingAudio) return;
+      
+      // Rate limiting: Only process audio chunks every 100ms
+      const now = Date.now();
+      if (now - this.lastAudioChunkTime < this.audioChunkInterval) {
+        return;
+      }
+      
+      this.isProcessingAudio = true;
+      this.lastAudioChunkTime = now;
       
       const inputData = event.inputBuffer.getChannelData(0);
       const pcm16 = new Int16Array(inputData.length);
@@ -408,6 +424,11 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       
       const base64Audio = this.arrayBufferToBase64(pcm16.buffer);
       this.sendAudioChunk(base64Audio);
+      
+      // Reset processing flag after a short delay
+      setTimeout(() => {
+        this.isProcessingAudio = false;
+      }, 50);
     };
     
     source.connect(this.audioProcessor);
@@ -438,13 +459,14 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     console.log('✅ Audio capture stopped');
   }
   
-  // Send audio chunk to API
+  // Send audio chunk to API with additional logging
   sendAudioChunk(base64Audio) {
     const message = {
       type: 'input_audio_buffer.append',
       audio: base64Audio
     };
     
+    console.log('🎤 Sending audio chunk (rate limited)');
     this.sendMessage(message);
   }
   
