@@ -166,6 +166,14 @@ function initDemoToggle() {
       setTimeout(async () => {
         console.log('🎤 Starting continuous listening mode');
         
+        // Check if voxyVoice is still valid
+        if (!voxyVoice || !voxyVoice.isConnected) {
+          console.error('❌ VoxyVoice not available or disconnected');
+          content.textContent = 'Eroare: Reconectează-te';
+          demoCircle.classList.remove('listening');
+          return;
+        }
+        
         try {
           // For mobile, add a small delay and ensure user interaction
           const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -185,6 +193,7 @@ function initDemoToggle() {
           demoCircle.classList.remove('listening');
           
           // Show more specific error message on mobile
+          const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
           if (isMobile && error.message.includes('Permission denied')) {
             content.textContent = 'Click "Permite" în browser';
           }

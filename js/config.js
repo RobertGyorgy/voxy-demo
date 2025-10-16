@@ -70,6 +70,9 @@ async function loadVoxyApiKey() {
   if (typeof window !== 'undefined' && window.VOXY_API_KEY) {
     VOXY_CONFIG.apiKey = window.VOXY_API_KEY;
     console.log('✅ API key loaded from build-time injection:', window.VOXY_API_KEY.substring(0, 20) + '...');
+    console.log('🔑 Full API key length:', window.VOXY_API_KEY.length);
+    console.log('🔑 API key starts with:', window.VOXY_API_KEY.substring(0, 10));
+    console.log('🔑 API key ends with:', window.VOXY_API_KEY.substring(window.VOXY_API_KEY.length - 10));
     return;
   }
   
