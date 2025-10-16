@@ -86,9 +86,14 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
       const url = `${this.config.REALTIME_API_URL}?model=${this.config.MODEL}`;
       console.log('🌐 WebSocket URL:', url);
       
+      const apiKeyHeader = `openai-insecure-api-key.${this.apiKey}`;
+      console.log('🔑 API key header length:', apiKeyHeader.length);
+      console.log('🔑 API key header starts with:', apiKeyHeader.substring(0, 30));
+      console.log('🔑 API key header ends with:', apiKeyHeader.substring(apiKeyHeader.length - 20));
+      
       this.ws = new WebSocket(url, [
         'realtime',
-        `openai-insecure-api-key.${this.apiKey}`,
+        apiKeyHeader,
         'openai-beta.realtime-v1'
       ]);
       
