@@ -27,6 +27,11 @@ class VoxyVoice {
     this.audioChunkInterval = 100; // Minimum 100ms between audio chunks (10 chunks/second max)
     this.isProcessingAudio = false;
     
+    // Time limit for conversation (1 minute from first AI response)
+    this.conversationStartTime = null;
+    this.conversationTimeLimit = 60000; // 1 minute in milliseconds
+    this.timeLimitTimer = null;
+    
     // Configuration from realtime-voice-ai/config.js
     this.config = {
       REALTIME_API_URL: 'wss://api.openai.com/v1/realtime',
@@ -170,7 +175,7 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
         input_audio_format: 'pcm16',
         output_audio_format: 'pcm16',
         input_audio_transcription: {
-          model: 'whisper-1'
+          model: 'whisper-1-large' // Better accuracy for call center AI
         },
         // Force text processing to use cheaper model
         model: 'gpt-4o-mini', // Override default GPT-5 for text processing
@@ -243,6 +248,12 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
           break;
           
         case 'response.audio.delta':
+          // Start conversation timer on first AI audio response
+          if (!this.conversationStartTime) {
+            this.conversationStartTime = Date.now();
+            this.startConversationTimer();
+            console.log('⏰ Conversation timer started - 1 minute limit');
+          }
           this.playAudio(msg.delta);
           break;
           
@@ -534,12 +545,44 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     }
   }
   
+  // Start conversation timer
+  startConversationTimer() {
+    this.timeLimitTimer = setTimeout(() => {
+      console.log('⏰ Conversation time limit reached (1 minute)');
+      this.endConversationDueToTimeLimit();
+    }, this.conversationTimeLimit);
+  }
+  
+  // End conversation due to time limit
+  endConversationDueToTimeLimit() {
+    console.log('⏰ Ending conversation due to 1-minute time limit');
+    
+    // Stop listening and disconnect
+    this.stopListening();
+    this.disconnect();
+    
+    // Dispatch event to update UI
+    window.dispatchEvent(new CustomEvent('voxy-time-limit-reached', {
+      detail: { message: 'Conversația s-a încheiat după 1 minut de testare' }
+    }));
+  }
+  
+  // Clear conversation timer
+  clearConversationTimer() {
+    if (this.timeLimitTimer) {
+      clearTimeout(this.timeLimitTimer);
+      this.timeLimitTimer = null;
+    }
+    this.conversationStartTime = null;
+  }
+
   // Disconnect and cleanup
   disconnect() {
     console.log('🔌 Disconnecting...');
     
     this.stopListening();
     this.stopCurrentAudio();
+    this.clearConversationTimer();
     
     if (this.ws) {
       this.ws.close();

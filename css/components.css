@@ -157,6 +157,15 @@
   box-shadow: 0 6px 20px rgba(65, 105, 225, 0.4);
 }
 
+.demo-info-text {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  opacity: 0.8;
+  font-style: italic;
+}
+
 /* ========== PARALLAX IMAGES SECTION ========== */
 .parallax-images {
   margin-top: 10vh;

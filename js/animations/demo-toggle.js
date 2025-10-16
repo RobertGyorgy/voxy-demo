@@ -142,6 +142,35 @@ function initDemoToggle() {
     console.log('✅ UI updated: Ready for next input');
   });
   
+  // Listen for time limit reached event
+  window.addEventListener('voxy-time-limit-reached', function(event) {
+    console.log('⏰ Time limit reached:', event.detail.message);
+    
+    // Update UI to show time limit message
+    const content = demoCircle.querySelector('.demo-circle-text');
+    content.textContent = 'Timpul a expirat (1 min)';
+    
+    // Deactivate demo mode
+    demoContainer.classList.remove('demo-active');
+    toggleBtn.textContent = 'Vezi demo-ul';
+    
+    // Disconnect and cleanup
+    if (voxyVoice) {
+      voxyVoice.disconnect();
+      voxyVoice = null;
+    }
+    
+    demoCircle.classList.remove('listening');
+    isVoiceActive = false;
+    isFirstInteraction = true;
+    stopBtn.style.display = 'none';
+    
+    // Show alert to user
+    setTimeout(() => {
+      alert('⏰ Conversația s-a încheiat după 1 minut de testare.\n\nMulțumim că ai testat Voxy! Pentru o conversație mai lungă, contactează-ne pentru un demo complet.');
+    }, 1000);
+  });
+  
   // Click handler: First click triggers AI greeting and starts continuous conversation
   demoCircle.addEventListener('click', async function(e) {
     if (!voxyVoice || !voxyVoice.isConnected) return;
