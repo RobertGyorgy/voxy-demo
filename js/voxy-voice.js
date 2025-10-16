@@ -89,23 +89,30 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     
     return new Promise(async (resolve, reject) => {
       try {
-        // First, get API key from proxy
-        console.log('🔒 Getting API key from secure proxy...');
-        const proxyResponse = await fetch('/api/voxy-proxy?action=get-api-key');
-        const proxyData = await proxyResponse.json();
+        let apiKeyToUse = this.apiKey;
         
-        if (!proxyData.apiKey) {
-          throw new Error('Failed to get API key from proxy');
+        // Try to get API key from proxy first (for production)
+        try {
+          console.log('🔒 Trying to get API key from secure proxy...');
+          const proxyResponse = await fetch('/api/voxy-proxy?action=get-api-key');
+          const proxyData = await proxyResponse.json();
+          
+          if (proxyData.apiKey) {
+            apiKeyToUse = proxyData.apiKey;
+            console.log('✅ API key obtained from proxy');
+          } else {
+            console.log('⚠️ Proxy returned no API key, using direct key');
+          }
+        } catch (proxyError) {
+          console.log('⚠️ Proxy not available, using direct API key for development');
         }
         
-        console.log('✅ API key obtained from proxy');
-        
-        // Now connect directly to OpenAI with the secure API key
+        // Connect directly to OpenAI with the API key
         const url = `wss://api.openai.com/v1/realtime?model=${this.config.MODEL}`;
         console.log('🌐 WebSocket URL:', url);
         
-        const apiKeyHeader = `openai-insecure-api-key.${proxyData.apiKey}`;
-        console.log('🔑 Using secure API key from proxy');
+        const apiKeyHeader = `openai-insecure-api-key.${apiKeyToUse}`;
+        console.log('🔑 Using API key:', apiKeyToUse.substring(0, 20) + '...');
         
         this.ws = new WebSocket(url, [
           'realtime',
