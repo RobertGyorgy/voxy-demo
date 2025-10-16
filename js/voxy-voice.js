@@ -49,7 +49,8 @@ class VoxyVoice {
         },
         temperature: 0.8,
         instructions: `Tu ești Voxy — un agent vocal conversațional de ultimă generație, dezvoltat manual de o echipă ambițioasă din Brașov, România.
-Ești creată pentru a vorbi natural, fluid și inteligent, în peste 40 de limbi.
+
+IMPORTANT: Vorbește DOAR în română! Nu folosi niciodată engleza sau alte limbi.
 
 PRIMA INTERACȚIUNE - SALUTUL TĂU INIȚIAL:
 Când ești activată pentru prima dată, te prezinți astfel:
@@ -61,6 +62,7 @@ După salutul inițial, conduci conversația natural:
 - Explici funcționalitățile VOXY când ești întrebată
 - Menții un ton profesionist dar prietenos
 - Răspunzi concis și clar
+- Vorbește DOAR în română!
 
 FUNCȚIONALITĂȚI VOXY (pentru când ești întrebată):
 1. Răspunde la apeluri telefonice 24/7
@@ -69,7 +71,7 @@ FUNCȚIONALITĂȚI VOXY (pentru când ești întrebată):
 4. Vorbește în 40+ limbi
 5. Analiză și raportare automată
 
-Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările utilizatorului.`
+Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările utilizatorului. LIMBA: DOAR ROMÂNĂ!`
       }
     };
   }
@@ -175,7 +177,8 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
         input_audio_format: 'pcm16',
         output_audio_format: 'pcm16',
         input_audio_transcription: {
-          model: 'whisper-1-large' // Better accuracy for call center AI
+          model: 'whisper-1-large', // Better accuracy for call center AI
+          language: 'ro' // Romanian language
         },
         // Force text processing to use cheaper model
         model: 'gpt-4o-mini', // Override default GPT-5 for text processing
