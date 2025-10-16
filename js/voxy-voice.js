@@ -89,22 +89,11 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     
     return new Promise(async (resolve, reject) => {
       try {
-        let apiKeyToUse = this.apiKey;
+        // Use API key directly (injected by build.js from Vercel environment)
+        const apiKeyToUse = this.apiKey;
         
-        // Try to get API key from proxy first (for production)
-        try {
-          console.log('🔒 Trying to get API key from secure proxy...');
-          const proxyResponse = await fetch('/api/voxy-proxy?action=get-api-key');
-          const proxyData = await proxyResponse.json();
-          
-          if (proxyData.apiKey) {
-            apiKeyToUse = proxyData.apiKey;
-            console.log('✅ API key obtained from proxy');
-          } else {
-            console.log('⚠️ Proxy returned no API key, using direct key');
-          }
-        } catch (proxyError) {
-          console.log('⚠️ Proxy not available, using direct API key for development');
+        if (!apiKeyToUse) {
+          throw new Error('No API key available. Please configure VOXY_API_KEY in Vercel environment variables.');
         }
         
         // Connect directly to OpenAI with the API key

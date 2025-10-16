@@ -3,11 +3,6 @@
   "buildCommand": "node build.js",
   "outputDirectory": ".",
   "framework": null,
-  "functions": {
-    "api/voxy-proxy.js": {
-      "maxDuration": 30
-    }
-  },
   "env": {
     "VOXY_API_KEY": ""
   },
@@ -55,10 +50,4 @@
       ]
     }
   ],
-  "rewrites": [
-    {
-      "source": "/voxy-proxy",
-      "destination": "/api/voxy-proxy"
-    }
-  ]
 }
