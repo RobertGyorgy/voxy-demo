@@ -74,39 +74,35 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
     };
   }
   
-  // Connect to OpenAI Realtime API
+  // Connect to OpenAI Realtime API via secure proxy
   async connect() {
-    console.log('🔌 Connecting to OpenAI Realtime API...');
-    
-    // Load API key if not already set
-    if (!this.apiKey) {
-      loadVoxyApiKey();
-      if (!VOXY_CONFIG.apiKey) {
-        throw new Error('No API key available. Please provide OpenAI API key.');
-      }
-      this.apiKey = VOXY_CONFIG.apiKey;
-    }
-    
-    console.log('🔑 Using API key:', this.apiKey.substring(0, 20) + '...');
-    console.log('🔑 Full API key length:', this.apiKey.length);
-    console.log('🔑 API key starts with:', this.apiKey.substring(0, 15));
-    console.log('🔑 API key ends with:', this.apiKey.substring(this.apiKey.length - 10));
+    console.log('🔌 Connecting to OpenAI Realtime API via secure proxy...');
     
     return new Promise(async (resolve, reject) => {
       try {
-        // Use API key directly (injected by build.js from Vercel environment)
-        const apiKeyToUse = this.apiKey;
+        // Get secure API key from our proxy server
+        console.log('🔒 Getting secure API key from proxy...');
+        const proxyResponse = await fetch('/api/voxy-websocket', {
+          method: 'GET',
+          headers: {
+            'Upgrade': 'websocket'
+          }
+        });
         
-        if (!apiKeyToUse) {
-          throw new Error('No API key available. Please configure VOXY_API_KEY in Vercel environment variables.');
+        const proxyData = await proxyResponse.json();
+        
+        if (!proxyData.apiKey) {
+          throw new Error('Failed to get secure API key from proxy');
         }
         
-        // Connect directly to OpenAI with the API key
-        const url = `wss://api.openai.com/v1/realtime?model=${this.config.MODEL}`;
+        console.log('✅ Secure API key obtained from proxy');
+        
+        // Connect directly to OpenAI with the secure API key
+        const url = proxyData.websocketUrl || `wss://api.openai.com/v1/realtime?model=${this.config.MODEL}`;
         console.log('🌐 WebSocket URL:', url);
         
-        const apiKeyHeader = `openai-insecure-api-key.${apiKeyToUse}`;
-        console.log('🔑 Using API key:', apiKeyToUse.substring(0, 20) + '...');
+        const apiKeyHeader = `openai-insecure-api-key.${proxyData.apiKey}`;
+        console.log('🔑 Using secure API key from proxy');
         
         this.ws = new WebSocket(url, [
           'realtime',

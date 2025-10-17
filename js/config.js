@@ -69,10 +69,7 @@ async function loadVoxyApiKey() {
   // Try to load from build-time injection (Vercel/Netlify)
   if (typeof window !== 'undefined' && window.VOXY_API_KEY) {
     VOXY_CONFIG.apiKey = window.VOXY_API_KEY;
-    console.log('✅ API key loaded from build-time injection:', window.VOXY_API_KEY.substring(0, 20) + '...');
-    console.log('🔑 Full API key length:', window.VOXY_API_KEY.length);
-    console.log('🔑 API key starts with:', window.VOXY_API_KEY.substring(0, 10));
-    console.log('🔑 API key ends with:', window.VOXY_API_KEY.substring(window.VOXY_API_KEY.length - 10));
+    console.log('✅ API key loaded from build-time injection');
     return;
   }
   
@@ -83,7 +80,7 @@ async function loadVoxyApiKey() {
       const data = await response.json();
       if (data.apiKey && data.apiKey.startsWith('sk-')) {
         VOXY_CONFIG.apiKey = data.apiKey;
-        console.log('✅ API key loaded from Vercel environment:', data.apiKey.substring(0, 20) + '...');
+        console.log('✅ API key loaded from Vercel environment');
         return;
       }
     }
@@ -96,7 +93,7 @@ async function loadVoxyApiKey() {
   
   if (storedKey && storedKey.trim().startsWith('sk-')) {
     VOXY_CONFIG.apiKey = storedKey.trim();
-    console.log('✅ API key loaded from localStorage:', storedKey.substring(0, 20) + '...');
+    console.log('✅ API key loaded from localStorage');
     return;
   }
   
@@ -112,7 +109,7 @@ async function loadVoxyApiKey() {
     const trimmedKey = apiKey.trim();
     localStorage.setItem('voxy_api_key', trimmedKey);
     VOXY_CONFIG.apiKey = trimmedKey;
-    console.log('✅ API key saved and loaded:', trimmedKey.substring(0, 20) + '...');
+    console.log('✅ API key saved and loaded');
   } else {
     console.error('❌ No valid API key provided');
   }

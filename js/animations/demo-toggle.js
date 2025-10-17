@@ -63,7 +63,6 @@ function initDemoToggle() {
       if (!voxyVoice) {
         console.log('🎤 Initializing Voxy with voice:', VOXY_VOICE);
         console.log('🔑 API Key available:', !!VOXY_API_KEY);
-        console.log('🔑 API Key starts with:', VOXY_API_KEY ? VOXY_API_KEY.substring(0, 20) + '...' : 'NONE');
         
         // Check if VoxyVoice class is available
         console.log('🔍 VoxyVoice class available:', typeof window.VoxyVoice);
