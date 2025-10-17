@@ -69,8 +69,7 @@
     padding: var(--space-sm) var(--space-md);
   }
 
-  /* Tablet adjustments */
-  }
+  /* Contact Popup - Tablet */
 }
 
 /* Mobile (480px and Below) */
@@ -119,8 +118,6 @@
   .text-container p:nth-child(5) { z-index: 996; }
   .text-container p:nth-child(6) { z-index: 995; }
   .text-container p:nth-child(7) { z-index: 994; }
-
-  /* Mobile adjustments */
 
   /* YouTube Video - Mobile */
   .youtube-video-container {

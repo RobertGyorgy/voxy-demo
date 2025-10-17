@@ -38,9 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize zoom animation
   initZoomAnimation();
 
-  // Initialize demo toggle
-  initDemoToggle();
-
   // Initialize contact popup
   initContactPopup();
 

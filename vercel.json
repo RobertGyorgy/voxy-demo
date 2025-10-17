@@ -2,14 +2,6 @@
   "version": 2,
   "outputDirectory": ".",
   "framework": null,
-  "functions": {
-    "api/voxy-websocket.js": {
-      "maxDuration": 30
-    }
-  },
-  "env": {
-    "VOXY_API_KEY": ""
-  },
   "headers": [
     {
       "source": "/(.*)",
