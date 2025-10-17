@@ -69,6 +69,12 @@
     padding: var(--space-sm) var(--space-md);
   }
 
+  /* CTA Button - Tablet */
+  .cta-button {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
   /* Contact Popup - Tablet */
 }
 
@@ -118,6 +124,13 @@
   .text-container p:nth-child(5) { z-index: 996; }
   .text-container p:nth-child(6) { z-index: 995; }
   .text-container p:nth-child(7) { z-index: 994; }
+
+  /* CTA Button - Mobile */
+  .cta-button {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+  }
 
   /* YouTube Video - Mobile */
   .youtube-video-container {
