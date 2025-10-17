@@ -176,14 +176,10 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
         voice: this.voice,
         input_audio_format: 'pcm16',
         output_audio_format: 'pcm16',
-        // Force Romanian language for all responses
-        language: 'ro',
         input_audio_transcription: {
           model: 'whisper-1-large', // Better accuracy for call center AI
           language: 'ro' // Romanian language
         },
-        // Force text processing to use cheaper model
-        model: 'gpt-4o-mini', // Cheaper option while maintaining Romanian language
         turn_detection: this.config.SESSION.turn_detection,
         temperature: 0.1, // Lower temperature for more consistent Romanian responses
         max_response_output_tokens: 512 // Reduced from 4096 to save costs
