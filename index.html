@@ -216,11 +216,11 @@
       const scrollToContactFromZoomBtn = document.getElementById('scrollToContactFromZoom');
       
       function scrollToContact() {
-        // Use GSAP ScrollToPlugin for smooth scroll
+        // Use GSAP ScrollToPlugin for smooth scroll to bottom
         gsap.to(window, {
           duration: 1.5,
           scrollTo: {
-            y: "#contact",
+            y: "max",
             offsetY: 0
           },
           ease: "power2.inOut"
