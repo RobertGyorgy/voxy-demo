@@ -137,7 +137,7 @@
         <div class="staggered_text">
           <div class="flow content">
             <p>Avem o soluție care te lasă fără cuvinte. Vezi ce poate face.</p>
-            <a href="#contact" class="cta-button">HAI SA VORBIM</a>
+            <button class="cta-button" id="scrollToContact">HAI SA VORBIM</button>
           </div>
         </div>
 
@@ -151,7 +151,7 @@
           <div class="zoom-circle"></div>
           <div class="zoom-content">
             <h2>MULTUMIM CA<br>NE<span class="hyphen">-</span>AI AUZIT</h2>
-            <a href="#contact" class="zoom-button">HAI SA VORBIM</a>
+            <button class="zoom-button" id="scrollToContactFromZoom">HAI SA VORBIM</button>
           </div>
         </div>
       </section>
@@ -208,6 +208,34 @@
       </div>
     </div>
   </div>
+
+  <!-- Smooth scroll to contact section -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const scrollToContactBtn = document.getElementById('scrollToContact');
+      const scrollToContactFromZoomBtn = document.getElementById('scrollToContactFromZoom');
+      
+      function scrollToContact() {
+        // Use GSAP ScrollToPlugin for smooth scroll
+        gsap.to(window, {
+          duration: 1.5,
+          scrollTo: {
+            y: "#contact",
+            offsetY: 0
+          },
+          ease: "power2.inOut"
+        });
+      }
+      
+      if (scrollToContactBtn) {
+        scrollToContactBtn.addEventListener('click', scrollToContact);
+      }
+      
+      if (scrollToContactFromZoomBtn) {
+        scrollToContactFromZoomBtn.addEventListener('click', scrollToContact);
+      }
+    });
+  </script>
 
   <!-- Main Initialization -->
   <script src="js/main.js?v=8"></script>
