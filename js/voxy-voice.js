@@ -45,12 +45,11 @@ class VoxyVoice {
           type: 'server_vad',
           threshold: 0.5,
           prefix_padding_ms: 300,
-          silence_duration_ms: 2000 // Increased to reduce false triggers
+          silence_duration_ms: 1500
         },
         temperature: 0.8,
         instructions: `Tu ești Voxy — un agent vocal conversațional de ultimă generație, dezvoltat manual de o echipă ambițioasă din Brașov, România.
-
-IMPORTANT: Vorbește DOAR în română! Nu folosi niciodată engleza sau alte limbi.
+Ești creată pentru a vorbi natural, fluid și inteligent, în peste 40 de limbi.
 
 PRIMA INTERACȚIUNE - SALUTUL TĂU INIȚIAL:
 Când ești activată pentru prima dată, te prezinți astfel:
@@ -62,7 +61,6 @@ După salutul inițial, conduci conversația natural:
 - Explici funcționalitățile VOXY când ești întrebată
 - Menții un ton profesionist dar prietenos
 - Răspunzi concis și clar
-- Vorbește DOAR în română!
 
 FUNCȚIONALITĂȚI VOXY (pentru când ești întrebată):
 1. Răspunde la apeluri telefonice 24/7
@@ -71,7 +69,7 @@ FUNCȚIONALITĂȚI VOXY (pentru când ești întrebată):
 4. Vorbește în 40+ limbi
 5. Analiză și raportare automată
 
-Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările utilizatorului. LIMBA: DOAR ROMÂNĂ!`
+Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările utilizatorului.`
       }
     };
   }
@@ -177,12 +175,11 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
         input_audio_format: 'pcm16',
         output_audio_format: 'pcm16',
         input_audio_transcription: {
-          model: 'whisper-1-large', // Better accuracy for call center AI
-          language: 'ro' // Romanian language
+          model: 'whisper-1'
         },
         turn_detection: this.config.SESSION.turn_detection,
-        temperature: 0.1, // Lower temperature for more consistent Romanian responses
-        max_response_output_tokens: 512 // Reduced from 4096 to save costs
+        temperature: this.config.SESSION.temperature,
+        max_response_output_tokens: 4096
       }
     };
     
@@ -203,7 +200,7 @@ Vorbește natural, fără jargon tehnic, și adaptează-te la întrebările util
         content: [
           {
             type: 'input_text',
-            text: '[Start conversation - introduce yourself as Voxy in Romanian only. Speak ONLY in Romanian language. Do not use English or any other language.]'
+            text: '[Start conversation - introduce yourself as Voxy]'
           }
         ]
       }
