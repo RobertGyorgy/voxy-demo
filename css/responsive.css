@@ -69,34 +69,7 @@
     padding: var(--space-sm) var(--space-md);
   }
 
-  /* Demo Circle - Tablet */
-  .demo-circle-container {
-    width: 250px;
-    height: 180px; /* Reduced from 250px to 180px */
-    margin-top: -2rem; /* Negative margin to pull circle closer to button */
-  }
-
-  .demo-circle {
-    width: 200px;
-    height: 200px;
-  }
-
-  .demo-circle-icon {
-    font-size: 3rem;
-  }
-
-  .demo-circle-text {
-    font-size: 0.95rem;
-    padding: 0.4rem 0.8rem;
-  }
-  
-  .demo-circle::before {
-    filter: blur(16px) contrast(1.8) saturate(1.2);
-  }
-
-  .stop-conversation-btn {
-    padding: 0.6rem 1.5rem;
-    font-size: 0.95rem;
+  /* Tablet adjustments */
   }
 }
 
@@ -147,41 +120,7 @@
   .text-container p:nth-child(6) { z-index: 995; }
   .text-container p:nth-child(7) { z-index: 994; }
 
-  /* Demo Circle - Mobile */
-  .demo-circle-container {
-    width: 220px;
-    height: 160px; /* Reduced from 220px to 160px */
-    margin-top: -2rem; /* Negative margin to pull circle closer to button */
-  }
-
-  .demo-circle {
-    width: 180px;
-    height: 180px;
-  }
-
-  .demo-circle-icon {
-    font-size: 2.5rem;
-  }
-
-  .demo-circle-text {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.7rem;
-  }
-  
-  .demo-circle::before {
-    filter: blur(14px) contrast(1.8) saturate(1.2);
-  }
-
-  .demo-circle-hint {
-    font-size: 0.75rem;
-    bottom: -40px;
-  }
-
-  .stop-conversation-btn {
-    padding: 0.5rem 1.2rem;
-    font-size: 0.85rem;
-    margin-top: 0.75rem;
-  }
+  /* Mobile adjustments */
 
   /* YouTube Video - Mobile */
   .youtube-video-container {
